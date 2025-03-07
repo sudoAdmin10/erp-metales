@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Metales - Empaque</title>
+    <link rel="stylesheet" href="/styles/packaging.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ERP Metales</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <!-- Dashboard -->
+                    <li><a href="#" class="active">Dashboard</a></li>
+
+                    <!-- Sales con dropdown -->
+                    <li class="dropdown">
+                        <a href="/sales">Sales</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/generate-order">Generar Orden</a></li>
+                            <li><a href="/sales/suppliers">Proveedores</a></li>
+                            <li><a href="/sales/clients">Clientes</a></li>
+                            <li><a href="/sales/reports">Reportes</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Production -->
+                    <li><a href="/production">Production</a></li>
+
+                    <!-- Quality Control -->
+                    <li><a href="/quality">Quality Control</a></li>
+
+                    <!-- Packaging -->
+                    <li><a href="/packaging">Packaging</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Empaque</h2>
+            </header>
+
+            <!-- Tabla de órdenes listas para empaque -->
+            <section class="table-section">
+                <h3>Órdenes Listas para Empaque</h3>
+                <table class="packing-table">
+                    <thead>
+                        <tr>
+                            <th>ID Orden</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Cliente A</td>
+                            <td>Lámina de Acero</td>
+                            <td>500</td>
+                            <td><span class="status ready">Lista</span></td>
+                            <td>
+                                <button class="btn-pack">Empacar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Cliente B</td>
+                            <td>Tubos de Aluminio</td>
+                            <td>300</td>
+                            <td><span class="status ready">Lista</span></td>
+                            <td>
+                                <button class="btn-pack">Empacar</button>
+                            </td>
+                        </tr>
+                        <!-- Más filas aquí -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

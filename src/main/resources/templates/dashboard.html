@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP - Fabricación de Metales</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="btn-primary">
+                <h1>ERP Metales</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <!-- Dashboard -->
+                    <li><a href="#" class="active">Dashboard</a></li>
+
+                    <!-- Sales con dropdown -->
+                    <li class="dropdown">
+                        <a href="/sales">Sales</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/generate-order">Generar Orden</a></li>
+                            <li><a href="/sales/suppliers">Proveedores</a></li>
+                            <li><a href="/sales/clients">Clientes</a></li>
+                            <li><a href="/sales/reports">Reportes</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Production -->
+                    <li><a href="/production">Production</a></li>
+
+                    <!-- Quality Control -->
+                    <li><a href="/quality">Quality Control</a></li>
+
+                    <!-- Packaging -->
+                    <li><a href="/packaging">Packaging</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Bienvenido al ERP de Fabricación de Metales</h2>
+            </header>
+
+            <!-- Sección de métricas -->
+            <section class="metrics">
+                <div class="metric-card">
+                    <h3>Producción Diaria</h3>
+                    <p>1,200 toneladas</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Inventario Actual</h3>
+                    <p>5,000 toneladas</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Ventas del Mes</h3>
+                    <p>$2,500,000</p>
+                </div>
+            </section>
+
+            <!-- Sección de gráficos o información adicional -->
+            <section class="charts">
+                <div class="chart-card">
+                    <h3>Producción Mensual</h3>
+                    <p>Gráfico aquí...</p>
+                </div>
+                <div class="chart-card">
+                    <h3>Ventas por Producto</h3>
+                    <p>Gráfico aquí...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

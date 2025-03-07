@@ -1,0 +1,118 @@
+/* Estilos generales (compartidos con otras plantillas) */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Barra lateral */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 20px;
+}
+
+.sidebar .logo h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.sidebar .nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .nav ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar .nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sidebar .nav ul li a.active {
+    font-weight: bold;
+    color: #1abc9c;
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    font-size: 28px;
+    margin: 0;
+}
+
+/* Tabla de órdenes listas para empaque */
+.table-section {
+    overflow-x: auto;
+}
+
+.packing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.packing-table th,
+.packing-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.packing-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.packing-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.status.ready {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.btn-pack {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #1abc9c;
+    color: #fff;
+}
+
+.btn-pack:hover {
+    background-color: #16a085;
+}

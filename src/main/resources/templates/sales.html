@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Metales - Ventas</title>
+    <link rel="stylesheet" href="styles/sales.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ERP Metales</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <!-- Dashboard -->
+                    <li><a href="#" class="active">Dashboard</a></li>
+
+                    <!-- Sales con dropdown -->
+                    <li class="dropdown">
+                        <a href="/sales">Sales</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/generate-order">Generar Orden</a></li>
+                            <li><a href="/sales/suppliers">Proveedores</a></li>
+                            <li><a href="/sales/clients">Clientes</a></li>
+                            <li><a href="/sales/reports">Reportes</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Production -->
+                    <li><a href="/production">Production</a></li>
+
+                    <!-- Quality Control -->
+                    <li><a href="/quality">Quality Control</a></li>
+
+                    <!-- Packaging -->
+                    <li><a href="/packaging">Packaging</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Ventas</h2>
+                <button class="btn-primary">Nueva Venta</button>
+            </header>
+
+            <!-- Tabla de ventas -->
+            <section class="table-section">
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Cliente A</td>
+                            <td>2023-10-01</td>
+                            <td>$1,500.00</td>
+                            <td><span class="status completed">Completada</span></td>
+                            <td>
+                                <button class="btn-edit">Editar</button>
+                                <button class="btn-delete">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Cliente B</td>
+                            <td>2023-10-02</td>
+                            <td>$2,300.00</td>
+                            <td><span class="status pending">Pendiente</span></td>
+                            <td>
+                                <button class="btn-edit">Editar</button>
+                                <button class="btn-delete">Eliminar</button>
+                            </td>
+                        </tr>
+                        <!-- Más filas aquí -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
