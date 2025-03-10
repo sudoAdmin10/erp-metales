@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.Person;
 
-public class CustomerMapper implements RowMapper<Person> {
+public class CustomerMapper implements RowMapper<Customer> {
     @Override
     public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
         Customer cliente = new Customer();
@@ -15,7 +15,7 @@ public class CustomerMapper implements RowMapper<Person> {
         cliente.setId(rs.getInt("ID"));
         cliente.setLast_name(rs.getString("LAST_NAME"));
         cliente.setPhone(rs.getString("PHONE"));
-        cliente.setAdress(rs.getString("ADRESS"));
+        cliente.setAddress(rs.getString("ADDRESS"));
 
         return cliente;
     }

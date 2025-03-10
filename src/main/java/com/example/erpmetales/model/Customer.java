@@ -2,7 +2,7 @@ package com.example.erpmetales.model;
 
 public class Customer extends Person {
     private int id;
-    private String adress;
+    private String address;
     private String last_name;
     private String phone;
 
@@ -28,16 +28,16 @@ public class Customer extends Person {
         return phone;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
 }
