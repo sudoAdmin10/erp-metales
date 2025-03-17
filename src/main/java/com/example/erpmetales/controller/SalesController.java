@@ -43,6 +43,18 @@ public class SalesController {
         return "sales/customers";
     }
 
+    @GetMapping("/suppliers")
+    public String getSuppliers(Model model) {
+        return "sales/suppliers";
+    }
+
+    @GetMapping("/reports")
+    public String getReports(Model model) {
+        List<Customer> customers = salesDao.getAllCustomers();
+        model.addAttribute("lista_clientes", customers);
+        return "sales/reports";
+    }
+
     @GetMapping("/customers/new")
     public String showNewCustomerForm(Model model) {
         model.addAttribute("customer", new Customer());
