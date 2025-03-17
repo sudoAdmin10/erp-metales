@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Metales - Clientes</title>
+    <link rel="stylesheet" href="/styles/customers.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ERP Metales</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/sales">Ventas</a></li>
+                    <li><a href="/production">Producción</a></li>
+                    <li><a href="/quality">Calidad</a></li>
+                    <li><a href="/packaging">Empaque</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h2>Clientes</h2>
+                <a href="/sales/customers/new" class="btn-primary">Nuevo Cliente</a>
+            </header>
+
+            <section class="table-section">
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iterar sobre la lista de clientes -->
+                        <tr th:each="c : ${lista_clientes}">
+                            <td th:text="${c.id}"></td>
+                            <td th:text="${c.address}"></td>
+                            <td th:text="${c.phone}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

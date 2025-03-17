@@ -17,35 +17,39 @@ public class ErpmetalesController {
         return modelAndView;
     }
 
+    // ------------------- SALES ------------------------------------
     @RequestMapping(value = { "/sales" }, method = RequestMethod.GET)
     public ModelAndView sales() {
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.setViewName("sales");
+        modelAndView.setViewName("sales/sales");
         return modelAndView;
     }
 
+    // ------------------- PRODUCTION ------------------------------------
     @RequestMapping(value = { "/production" }, method = RequestMethod.GET)
     public ModelAndView production() {
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.setViewName("production");
+        modelAndView.setViewName("production/production");
         return modelAndView;
     }
 
+    // ------------------- QUALITY ------------------------------------
     @RequestMapping(value = { "/quality" }, method = RequestMethod.GET)
     public ModelAndView quality() {
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.setViewName("quality");
+        modelAndView.setViewName("quality/quality");
         return modelAndView;
     }
 
+    // ------------------- PACKAGING ------------------------------------
     @RequestMapping(value = { "/packaging" }, method = RequestMethod.GET)
     public ModelAndView packaging() {
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.setViewName("packaging");
+        modelAndView.setViewName("package/packaging");
         return modelAndView;
     }
 

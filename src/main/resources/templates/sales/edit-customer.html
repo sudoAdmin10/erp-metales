@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Metales - Editar Cliente</title>
+    <link rel="stylesheet" href="/styles/sales.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ERP Metales</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/sales">Ventas</a></li>
+                    <li><a href="/production">Producción</a></li>
+                    <li><a href="/quality">Calidad</a></li>
+                    <li><a href="/packaging">Empaque</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Editar Cliente</h2>
+                <a href="/sales/customers" class="btn-primary">Volver a Clientes</a>
+            </header>
+
+            <!-- Formulario para editar un cliente existente -->
+            <section class="form-section">
+                <form th:action="@{/sales/customers/edit/{id}(id=${customer.id})}" method="post">
+                    <div class="form-group">
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="name" name="name" th:value="${customer.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Dirección:</label>
+                        <input type="text" id="address" name="address" th:value="${customer.address}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Teléfono:</label>
+                        <input type="text" id="phone" name="phone" th:value="${customer.phone}" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

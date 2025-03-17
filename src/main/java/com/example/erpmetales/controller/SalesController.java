@@ -6,34 +6,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
+import org.springframework.ui.Model;
 
-@RestController
-@RequestMapping("/customers")
+@Controller
+@RequestMapping("/sales")
 public class SalesController {
 
     @Autowired
     private SalesDao salesDao;
 
-    // Obtener todos los clientes
-    @GetMapping
-    public List<Customer> getCustomers() {
-        return salesDao.getAllCustomers();
+    @GetMapping("/customers")
+    public String getCustomers(Model model) {
+        List<Customer> customers = salesDao.getAllCustomers();
+        model.addAttribute("lista_clientes", customers);
+        return "sales/customers";
     }
 
-    // Agregar un nuevo cliente
-    @PostMapping
-    public String addCustomer(@RequestBody Customer customer) {
-        int result = salesDao.addCustomer(customer);
-        return result == 1 ? "Customer added successfully" : "Error adding customer";
+    @GetMapping("/customers/new")
+    public String showNewCustomerForm(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "sales/new-customer";
+    }
+
+    // Agregar un cliente
+    @PostMapping("/customers/save")
+    public String saveCustomer(@ModelAttribute Customer customer) {
+        salesDao.addCustomer(customer);
+        return "redirect:/sales/customers"; // Redirigir a la lista de clientes
     }
 
     // Actualizar un cliente
