@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.erpmetales.ErpmetalesApplication;
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import org.springframework.ui.Model;
@@ -25,8 +27,14 @@ import org.springframework.ui.Model;
 @RequestMapping("/sales")
 public class SalesController {
 
+    private final ErpmetalesApplication erpmetalesApplication;
+
     @Autowired
     private SalesDao salesDao;
+
+    SalesController(ErpmetalesApplication erpmetalesApplication) {
+        this.erpmetalesApplication = erpmetalesApplication;
+    }
 
     @GetMapping("/customers")
     public String getCustomers(Model model) {
@@ -43,23 +51,50 @@ public class SalesController {
 
     // Agregar un cliente
     @PostMapping("/customers/save")
-    public String saveCustomer(@ModelAttribute Customer customer) {
-        salesDao.addCustomer(customer);
-        return "redirect:/sales/customers"; // Redirigir a la lista de clientes
+    public String saveCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes) {
+        int result = salesDao.addCustomer(customer);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cliente agregado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
+        }
+        return "redirect:/sales/customers";
+    }
+
+    @GetMapping("/customers/edit/{id}")
+    public String showEditCustomerForm(@PathVariable int id, Model model) {
+        Customer customer = salesDao.getCustomerById(id);
+        if (customer == null) {
+            return "redirect:/sales/customers";
+        }
+        model.addAttribute("customer", customer);
+        return "sales/edit-customer";
     }
 
     // Actualizar un cliente
-    @PutMapping("/{id}")
-    public String updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
+    @PostMapping("/customers/edit/{id}")
+    public String updateCustomer(@PathVariable int id, @ModelAttribute Customer customer,
+            RedirectAttributes redirectAttributes) {
         customer.setId(id);
         int result = salesDao.updateCustomer(customer);
-        return result == 1 ? "Customer updated successfully" : "Error updating customer";
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cliente actualizado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al actualizar el cliente.");
+        }
+        return "redirect:/sales/customers";
     }
 
     // Eliminar un cliente
-    @DeleteMapping("/{id}")
-    public String deleteCustomer(@PathVariable int id) {
+    @PostMapping("/customers/delete")
+    public String deleteCustomer(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
         int result = salesDao.deleteCustomer(id);
-        return result == 1 ? "Customer deleted successfully" : "Error deleting customer";
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cliente eliminado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el cliente.");
+        }
+        return "redirect:/sales/customers";
     }
+
 }

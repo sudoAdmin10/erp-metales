@@ -6,33 +6,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP Metales - Ventas</title>
     <link rel="stylesheet" href="/styles/sales.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="dashboard-container">
+        <!-- Barra lateral -->
         <aside class="sidebar">
-            <div class="logo">
+            <div class="btn-primary">
                 <h1>ERP Metales</h1>
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="/sales" class="active">Ventas</a></li>
-                    <li><a href="/production">Producción</a></li>
-                    <li><a href="/quality">Calidad</a></li>
-                    <li><a href="/packaging">Empaque</a></li>
+                    <!-- Dashboard -->
+                    <li><a href="#" class="active">Dashboard</a></li>
+
+                    <!-- Sales con dropdown -->
+                    <li class="dropdown">
+                        <a href="/sales">Sales</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/generate-order">Generar Orden</a></li>
+                            <li><a href="/sales/suppliers">Proveedores</a></li>
+                            <li><a href="/sales/customers">Clientes</a></li>
+                            <li><a href="/sales/reports">Reportes</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Production -->
+                    <li><a href="/production">Production</a></li>
+
+                    <!-- Quality Control -->
+                    <li><a href="/quality">Quality Control</a></li>
+
+                    <!-- Packaging -->
+                    <li><a href="/packaging">Packaging</a></li>
                 </ul>
             </nav>
         </aside>
 
+        <!-- Contenido principal -->
         <main class="main-content">
             <header class="header">
                 <h2>Ventas</h2>
+                <div class="header-actions">
+                    <a href="/sales/generate-order" class="btn-primary">
+                        <i class="fas fa-plus"></i> Generar Orden
+                    </a>
+                    <a href="/sales/customers" class="btn-primary">
+                        <i class="fas fa-person"></i> New Client
+                    </a>
+                    <a href="/sales/suppliers" class="btn-primary">
+                        <i class="fas fa-truck"></i> Proveedores
+                    </a>
+                    <a href="/sales/reports" class="btn-primary">
+                        <i class="fas fa-chart-line"></i> Reportes
+                    </a>
+                </div>
             </header>
 
-            <section class="content">
-                <p>Bienvenido a la sección de ventas.</p>
-                <a href="/sales/customers" class="btn-primary">Ver Clientes</a>
+            <!-- Tabla de órdenes de venta -->
+            <section class="table-section">
+                <h3>Órdenes de Venta Actuales</h3>
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${currentOrders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.customerName}"></td>
+                            <td th:text="${order.date}"></td>
+                            <td th:text="${order.total}"></td>
+                            <td>
+                                <span class="status"
+                                    th:classappend="${order.status == 'Completada'} ? 'completed' : 'pending'"
+                                    th:text="${order.status}"></span>
+                            </td>
+                            <td>
+                                <a th:href="@{/sales/orders/edit/{id}(id=${order.id})}" class="btn-edit">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a th:href="@{/sales/orders/delete/{id}(id=${order.id})}" class="btn-delete">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Órdenes de Venta Pasadas</h3>
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${pastOrders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.customerName}"></td>
+                            <td th:text="${order.date}"></td>
+                            <td th:text="${order.total}"></td>
+                            <td>
+                                <span class="status"
+                                    th:classappend="${order.status == 'Completada'} ? 'completed' : 'pending'"
+                                    th:text="${order.status}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </main>
     </div>

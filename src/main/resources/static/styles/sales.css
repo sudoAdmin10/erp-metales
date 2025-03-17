@@ -64,6 +64,11 @@ body {
     margin: 0;
 }
 
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
 .btn-primary {
     background-color: #1abc9c;
     color: #fff;
@@ -72,6 +77,9 @@ body {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .btn-primary:hover {
@@ -80,13 +88,21 @@ body {
 
 /* Tabla de ventas */
 .table-section {
-    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.table-section h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
 .sales-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .sales-table th,
@@ -97,14 +113,20 @@ body {
 }
 
 .sales-table th {
-    background-color: #f4f4f4;
+    background-color: #1abc9c;
+    color: #fff;
     font-weight: bold;
 }
 
-.sales-table tbody tr:hover {
+.sales-table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+.sales-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estado de la orden */
 .status {
     padding: 5px 10px;
     border-radius: 5px;
@@ -122,6 +144,7 @@ body {
     color: #856404;
 }
 
+/* Botones de acción */
 .btn-edit,
 .btn-delete {
     padding: 5px 10px;
@@ -129,6 +152,9 @@ body {
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .btn-edit {

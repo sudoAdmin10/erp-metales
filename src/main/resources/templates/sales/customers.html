@@ -5,11 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP Metales - Clientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="/styles/customers.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/alerts.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
     <div class="dashboard-container">
+        <!-- Barra lateral -->
         <aside class="sidebar">
             <div class="logo">
                 <h1>ERP Metales</h1>
@@ -17,36 +26,108 @@
             <nav class="nav">
                 <ul>
                     <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="/sales">Ventas</a></li>
-                    <li><a href="/production">Producción</a></li>
-                    <li><a href="/quality">Calidad</a></li>
-                    <li><a href="/packaging">Empaque</a></li>
+                    <li class="dropdown">
+                        <a href="/sales">Sales</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/generate-order">Generar Orden</a></li>
+                            <li><a href="/sales/suppliers">Proveedores</a></li>
+                            <li><a href="#" class="active">Clientes</a></li>
+                            <li><a href="/sales/reports">Reportes</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/production">Production</a></li>
+                    <li><a href="/quality">Quality Control</a></li>
+                    <li><a href="/packaging">Packaging</a></li>
                 </ul>
             </nav>
         </aside>
 
+
+
+
+
+        <!-- Contenido principal -->
         <main class="main-content">
             <header class="header">
-                <h2>Clientes</h2>
-                <a href="/sales/customers/new" class="btn-primary">Nuevo Cliente</a>
+                <h2>Clients</h2>
+                <a href="/sales/customers/new" class="btn btn-outline-primary btn-sm">New Client</a>
             </header>
 
+            <!-- Mensajes de éxito/error -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa-solid fa-circle-check"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+
+            <!-- Modal de Confirmación -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmar Eliminación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro de que deseas eliminar este cliente?
+                        </div>
+                        <div class="modal-footer">
+                            <form action="/sales/customers/delete" method="post">
+                                <input type="hidden" id="deleteCustomerId" name="id">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function openDeleteModal(element) {
+                    let customerId = element.getAttribute("data-id");
+                    document.getElementById("deleteCustomerId").value = customerId;
+                    var deleteModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+                    deleteModal.show();
+                }
+            </script>
+
+
+
+
+
+            <!-- Tabla dinámica de clientes -->
             <section class="table-section">
                 <table class="sales-table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Acction</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Iterar sobre la lista de clientes -->
                         <tr th:each="c : ${lista_clientes}">
                             <td th:text="${c.id}"></td>
+                            <td th:text="${c.last_name}"></td>
                             <td th:text="${c.address}"></td>
                             <td th:text="${c.phone}"></td>
+                            <td>
+                                <a th:href="@{/sales/customers/edit/{id}(id=${c.id})}" class="btn-edit"><i
+                                        class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="#" class="btn-delete" onclick="openDeleteModal(this)"
+                                    th:attr="data-id=${c.id}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
