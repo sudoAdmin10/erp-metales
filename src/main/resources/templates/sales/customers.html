@@ -121,27 +121,26 @@
                 </script>
 
 
-
-
-
                 <!-- Tabla dinámica de clientes -->
                 <section class="table-section">
                     <table class="sales-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Address</th>
                                 <th>Phone</th>
+                                <th>Email</th>
                                 <th>Acction</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="c : ${lista_clientes}">
-                                <td th:text="${c.id}"></td>
+                                <td th:text="${c.first_name}"></td>
                                 <td th:text="${c.last_name}"></td>
                                 <td th:text="${c.address}"></td>
                                 <td th:text="${c.phone}"></td>
+                                <td th:text="${c.email}"></td>
                                 <td>
                                     <a th:href="@{/sales/customers/edit/{id}(id=${c.id})}"
                                         class="btn btn-sm btn-outline-warning"><i

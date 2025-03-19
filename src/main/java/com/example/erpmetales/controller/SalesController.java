@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.erpmetales.ErpmetalesApplication;
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
+import com.example.erpmetales.model.Provider;
 import org.springframework.ui.Model;
 
 @Controller
@@ -45,6 +46,8 @@ public class SalesController {
 
     @GetMapping("/suppliers")
     public String getSuppliers(Model model) {
+        List<Provider> providers = salesDao.getAllSuppliers();
+        model.addAttribute("lista_proovedores", providers);
         return "sales/suppliers";
     }
 
@@ -61,6 +64,12 @@ public class SalesController {
         return "sales/new-customer";
     }
 
+    @GetMapping("/suppliers/new")
+    public String showNewProviderForm(Model model) {
+        model.addAttribute("customer", new Provider());
+        return "sales/new-provider";
+    }
+
     // Agregar un cliente
     @PostMapping("/customers/save")
     public String saveCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes) {
@@ -71,6 +80,18 @@ public class SalesController {
             redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
         }
         return "redirect:/sales/customers";
+    }
+
+    // Agregar un proovedor
+    @PostMapping("/suppliers/save")
+    public String saveProvider(@ModelAttribute Provider provider, RedirectAttributes redirectAttributes) {
+        int result = salesDao.addProvider(provider);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cliente agregado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
+        }
+        return "redirect:/sales/suppliers";
     }
 
     @GetMapping("/customers/edit/{id}")

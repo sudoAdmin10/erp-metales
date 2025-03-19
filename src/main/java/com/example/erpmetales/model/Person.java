@@ -4,6 +4,8 @@ public class Person {
     private String first_name;
     private String last_name;
 
+    // Constructors, getters, and setters
+
     public String getFirst_name() {
         return first_name;
     }
@@ -19,7 +21,5 @@ public class Person {
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
-
-    // Constructors, getters, and setters
 
 }

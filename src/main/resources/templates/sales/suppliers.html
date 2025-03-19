@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="/styles/production.css">
+    <link rel="stylesheet" href="/styles/customers.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -69,46 +69,90 @@
 
             <!-- Contenido principal -->
             <main class="col-md-9 col-lg-10 p-4">
+                <header class="header">
+                    <h2>Providers</h2>
+                    <a href="/sales/suppliers/new" class="btn btn-outline-primary btn-sm">New Provider</a>
+                </header>
+
+                <!-- Mensajes de éxito/error -->
+                <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${errorMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+
+                <!-- Modal de Confirmación -->
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirmar Eliminación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que deseas eliminar este cliente?
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/sales/providers/delete" method="post">
+                                    <input type="hidden" id="deleteProviderId" name="id">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function openDeleteModal(element) {
+                        let providerId = element.getAttribute("data-id");
+                        document.getElementById("deleteProviderId").value = providerId;
+                        var deleteModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+                        deleteModal.show();
+                    }
+                </script>
+
+
+                <!-- Tabla dinámica de clientes -->
                 <section class="table-section">
-                    <h3>List of Suppliers</h3>
-                    <table class="production-table">
+                    <table class="sales-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Fecha de Entrega</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Acction</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>Cliente A</td>
-                                <td>Lámina de Acero</td>
-                                <td>500</td>
-                                <td>2023-10-10</td>
-                                <td><span class="status in-progress">En Progreso</span></td>
+                            <tr th:each="c : ${lista_proovedores}">
+                                <td th:text="${c.first_name}"></td>
+                                <td th:text="${c.last_name}"></td>
+                                <td th:text="${c.address}"></td>
+                                <td th:text="${c.city}"></td>
+                                <td th:text="${c.phone}"></td>
+                                <td th:text="${c.email}"></td>
                                 <td>
-                                    <button class="btn-edit">Editar</button>
-                                    <button class="btn-delete">Cancelar</button>
+                                    <a th:href="@{/sales/providers/edit/{id}(id=${c.id})}"
+                                        class="btn btn-sm btn-outline-warning"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${c.id}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Cliente B</td>
-                                <td>Tubos de Aluminio</td>
-                                <td>300</td>
-                                <td>2023-10-15</td>
-                                <td><span class="status pending">Pendiente</span></td>
-                                <td>
-                                    <button class="btn-edit">Editar</button>
-                                    <button class="btn-delete">Cancelar</button>
-                                </td>
-                            </tr>
-                            <!-- Más filas aquí -->
                         </tbody>
                     </table>
                 </section>
