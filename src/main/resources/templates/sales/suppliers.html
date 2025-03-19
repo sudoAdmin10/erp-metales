@@ -100,7 +100,7 @@
                                 ¿Estás seguro de que deseas eliminar este cliente?
                             </div>
                             <div class="modal-footer">
-                                <form action="/sales/providers/delete" method="post">
+                                <form action="/sales/suppliers/delete" method="post">
                                     <input type="hidden" id="deleteProviderId" name="id">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
@@ -144,7 +144,7 @@
                                 <td th:text="${c.phone}"></td>
                                 <td th:text="${c.email}"></td>
                                 <td>
-                                    <a th:href="@{/sales/providers/edit/{id}(id=${c.id})}"
+                                    <a th:href="@{/sales/suppliers/edit/{id}(id=${c.id})}"
                                         class="btn btn-sm btn-outline-warning"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="#" class="btn btn-sm btn-outline-danger" onclick="openDeleteModal(this)"

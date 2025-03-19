@@ -110,10 +110,33 @@ public class SalesDao {
                 provider.getZip_code());
     }
 
+    @SuppressWarnings("deprecation")
+    public Provider getProviderById(int id) {
+        String query = "SELECT c.id, c.person_id, p.last_name, c.address, c.phone, p.first_name, c.email, c.company, c.city, c.zip_code "
+                +
+                "FROM provider c INNER JOIN person p ON c.person_id = p.id " +
+                "WHERE c.id = ?";
+
+        return PostgresTemplate.queryForObject(query, new Object[] { id }, (rs, rowNum) -> {
+            Provider provider = new Provider();
+            provider.setId(rs.getInt("id"));
+            provider.setPerson_id(rs.getInt("person_id"));
+            provider.setLast_name(rs.getString("last_name"));
+            provider.setAddress(rs.getString("address"));
+            provider.setPhone(rs.getString("phone"));
+            provider.setFirst_name(rs.getString("first_name"));
+            provider.setEmail(rs.getString("email"));
+            provider.setCompany(rs.getString("company"));
+            provider.setCity(rs.getString("city"));
+            provider.setZip_code(rs.getString("zip_code"));
+            return provider;
+        });
+    }
+
     // Eliminar proovedor
     public int deleteProvider(int id) {
         // Obtener el person_id antes de eliminar el cliente
-        String getPersonIdQuery = "SELECT person_id FROM customer WHERE id = ?";
+        String getPersonIdQuery = "SELECT person_id FROM provider WHERE id = ?";
         Integer personId = PostgresTemplate.queryForObject(getPersonIdQuery, new Object[] { id }, Integer.class);
 
         if (personId != null) {
@@ -132,7 +155,7 @@ public class SalesDao {
         String personQuery = "UPDATE person SET first_name = ?, last_name = ? WHERE id = (SELECT person_id FROM provider WHERE id = ?)";
         PostgresTemplate.update(personQuery, provider.getFirst_name(), provider.getLast_name(), provider.getId());
 
-        String providerQuery = "UPDATE customer SET email = ?, address = ?, phone = ?, city = ?  , company = ?, zip_code =? WHERE id = ?";
+        String providerQuery = "UPDATE provider SET email = ?, address = ?, phone = ?, city = ?  , company = ?, zip_code =? WHERE id = ?";
         return PostgresTemplate.update(providerQuery, provider.getEmail(), provider.getAddress(),
                 provider.getPhone(), provider.getCity(), provider.getCompany(), provider.getZip_code(),
                 provider.getId());

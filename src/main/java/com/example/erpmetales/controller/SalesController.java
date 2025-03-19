@@ -118,7 +118,6 @@ public class SalesController {
         return "redirect:/sales/customers";
     }
 
-    // Eliminar un cliente
     @PostMapping("/customers/delete")
     public String deleteCustomer(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
         int result = salesDao.deleteCustomer(id);
@@ -128,6 +127,44 @@ public class SalesController {
             redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el cliente.");
         }
         return "redirect:/sales/customers";
+    }
+
+    @GetMapping("/suppliers/edit/{id}")
+    public String showEditProviderForm(@PathVariable int id, Model model) {
+        Provider provider = salesDao.getProviderById(id);
+        if (provider == null) {
+            return "redirect:/sales/suppliers";
+        }
+        model.addAttribute("provider", provider);
+        return "sales/edit-provider";
+    }
+
+    // Actualizar un proovedor
+    @PostMapping("/suppliers/edit/{id}")
+    public String updateProvider(@PathVariable int id, @ModelAttribute Provider provider,
+            RedirectAttributes redirectAttributes) {
+        provider.setId(id);
+        int result = salesDao.updateProvider(provider);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Proovedor actualizado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al actualizar el proovedor.");
+        }
+        return "redirect:/sales/suppliers";
+    }
+
+    // Eliminar un cliente
+    @PostMapping("/suppliers/delete")
+    public String deleteProvider(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
+        int result = salesDao.deleteProvider(id);
+        System.out.println("id en controller ------ " + id);
+
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Proovedor eliminado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el provedor.");
+        }
+        return "redirect:/sales/suppliers";
     }
 
 }

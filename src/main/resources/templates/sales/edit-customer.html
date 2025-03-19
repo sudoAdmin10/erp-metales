@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP Metales - Editar Cliente</title>
-    <link rel="stylesheet" href="/styles/edit-customer.css">
+    <link rel="stylesheet" href="/styles/production.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -72,7 +72,7 @@
                 </header>
 
                 <!-- Formulario para editar un cliente existente -->
-                <section class="form-section">
+                <section>
                     <form th:action="@{/sales/customers/edit/{id}(id=${customer.id})}" method="post">
                         <div class="form-group">
                             <label for="first_name">First Name:</label>
@@ -95,7 +95,7 @@
                             <input type="phone" id="phone" name="phone" th:value="${customer.phone}">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary mt-4">
                                 <i class="fas fa-save"></i> Guardar Cambios
                             </button>
                         </div>

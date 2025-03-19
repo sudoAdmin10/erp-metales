@@ -67,26 +67,49 @@
 
             <!-- Contenido principal -->
             <main class="col-md-9 col-lg-10 p-4">
+
+                <header class="header">
+                    <h2>New Provider</h2>
+                    <a href="/sales/suppliers" class=" btn btn-primary">Return</a>
+                </header>
+
                 <section class="order-section">
-                    <h3>Tomar Pedido</h3>
-                    <form action="/sales/suppliers/save" method="post" th:object="${customer}" class="order-form">
+                    <form action="/sales/suppliers/save" method="post" th:object="${provider}">
                         <div class="form-group">
-                            <label for="cliente">Cliente</label>
-                            <input type="text" id="cliente" name="cliente" required>
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" required>
                         </div>
                         <div class="form-group">
-                            <label for="producto">Producto</label>
-                            <input type="text" id="producto" name="producto" required>
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" required>
                         </div>
                         <div class="form-group">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="number" id="cantidad" name="cantidad" required>
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="fecha-entrega">Fecha de Entrega</label>
-                            <input type="date" id="fecha-entrega" name="fecha-entrega" required>
+                            <label for="phone">Phone</label>
+                            <input type="number" id="phone" name="phone" required>
                         </div>
-                        <button type="submit" class=" btn btn-outline-primary">Create Provider</button>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" name="company" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip_code">Zip Code</label>
+                            <input type="number" id="zip_code" name="fecha-zip_code" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class=" btn btn-outline-primary mt-4">Create Provider</button>
+                        </div>
                     </form>
                 </section>
 
