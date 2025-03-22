@@ -17,26 +17,20 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Barra lateral -->
             <aside class="col-md-3 col-lg-2 bg-light p-3">
-                <!-- Logo -->
                 <div class="text-center mb-4">
                     <h1 class="h4 fw-bold text-primary">ERP Metales</h1>
                 </div>
 
-                <!-- Menú de navegación -->
                 <nav class="nav flex-column">
-                    <!-- Dashboard -->
-                    <a href="#" class="nav-link active bg-primary text-white rounded mb-2">
+                    <a href="/" class="nav-link active bg-primary text-white rounded mb-2">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
 
-                    <!-- Ventas -->
                     <a href="/sales" class="nav-link text-dark rounded mb-2">
                         <i class="fas fa-shopping-cart me-2"></i>Ventas
                     </a>
 
-                    <!-- Dropdown de Ventas -->
                     <div class="dropdown mb-2">
                         <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -49,34 +43,28 @@
                         </ul>
                     </div>
 
-                    <!-- Producción -->
                     <a href="/production" class="nav-link text-dark rounded mb-2">
                         <i class="fas fa-industry me-2"></i>Producción
                     </a>
 
-                    <!-- Control de Calidad -->
                     <a href="/quality" class="nav-link text-dark rounded mb-2">
                         <i class="fas fa-check-circle me-2"></i>Control de Calidad
                     </a>
 
-                    <!-- Empaque -->
                     <a href="/packaging" class="nav-link text-dark rounded mb-2">
                         <i class="fas fa-box me-2"></i>Empaque
                     </a>
                 </nav>
             </aside>
 
-            <!-- Contenido principal -->
             <main class="col-md-9 col-lg-10 p-4">
 
 
                 <header class="header">
                     <h2>Sales Record</h2>
-                    <!--<button class="btn btn-outline-info">New Order</button>-->
 
                 </header>
 
-                <!-- Sección para tomar pedidos -->
                 <section class="order-section">
                     <h3>Tomar Pedido</h3>
                     <form class="order-form">
@@ -100,7 +88,6 @@
                     </form>
                 </section>
 
-                <!-- Tabla de órdenes en producción -->
                 <section class="table-section">
                     <h3>Órdenes en Producción</h3>
                     <table class="production-table">
@@ -140,7 +127,6 @@
                                     <button class="btn-delete">Cancelar</button>
                                 </td>
                             </tr>
-                            <!-- Más filas aquí -->
                         </tbody>
                     </table>
                 </section>
