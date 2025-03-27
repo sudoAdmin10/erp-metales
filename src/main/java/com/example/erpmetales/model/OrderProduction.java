@@ -1,21 +1,23 @@
 package com.example.erpmetales.model;
 
-public class OrderProduction extends BaseEntity implements Order {
+public class OrderProduction extends BaseEntity {
     private Product product;
     private int quantity;
     private String state;
 
-    @Override
-    public void procesarOrden() {
-        this.state = "Completado";
-        System.out.println("Orden de producción completada.");
-    }
-
-    @Override
-    public void cancelarOrden() {
-        this.state = "Cancelada";
-        System.out.println("Orden de producción cancelada.");
-    }
+    /*
+     * @Override
+     * public void procesarOrden() {
+     * this.state = "Completado";
+     * System.out.println("Orden de producción completada.");
+     * }
+     * 
+     * @Override
+     * public void cancelarOrden() {
+     * this.state = "Cancelada";
+     * System.out.println("Orden de producción cancelada.");
+     * }
+     */
 
     // Constructor, Getters y Setters
 

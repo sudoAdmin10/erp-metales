@@ -1,23 +1,32 @@
 package com.example.erpmetales.model;
 
 public class Product {
-    private String nombre;
+    private int id;
+    private String name;
     private String descripcion;
     private double precio;
     private int stock;
 
     // Constructors, getters, and setters
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setDescripcion(String descripcion) {

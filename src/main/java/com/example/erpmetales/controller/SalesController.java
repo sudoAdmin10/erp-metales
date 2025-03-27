@@ -1,6 +1,11 @@
 package com.example.erpmetales.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
+import javax.swing.plaf.synth.SynthMenuItemUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,6 +28,10 @@ import com.example.erpmetales.ErpmetalesApplication;
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.Provider;
+import com.example.erpmetales.model.Order;
+import com.example.erpmetales.model.OrderDetail;
+import com.example.erpmetales.model.Product;
+
 import org.springframework.ui.Model;
 
 @Controller
@@ -35,6 +45,21 @@ public class SalesController {
 
     SalesController(ErpmetalesApplication erpmetalesApplication) {
         this.erpmetalesApplication = erpmetalesApplication;
+    }
+
+    // VISTAS
+    // ---------------------------------------------------------------------------------
+
+    @GetMapping("")
+    public String showSalesPage(Model model) {
+        List<Product> products = salesDao.getAllProducts();
+        List<OrderDetail> orders = salesDao.getAllOrders();
+        List<Customer> customers = salesDao.getAllCustomers(); // Obtener clientes
+
+        model.addAttribute("lista_products", products);
+        model.addAttribute("lista_ordenes", orders);
+        model.addAttribute("lista_clientes", customers);
+        return "sales/sales";
     }
 
     @GetMapping("/customers")
@@ -58,16 +83,37 @@ public class SalesController {
         return "sales/reports";
     }
 
+    @GetMapping("orders")
+    public String listOrders(Model model) {
+        List<OrderDetail> orders = salesDao.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "sales/orders";
+    }
+
+    @GetMapping("/customers/search")
+    @ResponseBody
+    public List<Map<String, String>> searchCustomers(@RequestParam String query) {
+        List<Customer> customers = salesDao.searchCustomers(query);
+        return customers.stream().map(c -> Map.of("name", c.getFirst_name() + " " + c.getLast_name())).toList();
+    }
+
+    /*
+     * @GetMapping("/products/search")
+     * 
+     * @ResponseBody
+     * public List<Map<String, String>> searchProducts(@RequestParam String query) {
+     * List<Product> products = salesDao.searchProducts(query);
+     * return products.stream().map(p -> Map.of("name", p.getNombre())).toList();
+     * }
+     */
+
+    // CLIENTES
+    // ---------------------------------------------------------------------------------
+
     @GetMapping("/customers/new")
     public String showNewCustomerForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "sales/new-customer";
-    }
-
-    @GetMapping("/suppliers/new")
-    public String showNewProviderForm(Model model) {
-        model.addAttribute("customer", new Provider());
-        return "sales/new-provider";
     }
 
     // Agregar un cliente
@@ -80,18 +126,6 @@ public class SalesController {
             redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
         }
         return "redirect:/sales/customers";
-    }
-
-    // Agregar un proovedor
-    @PostMapping("/suppliers/save")
-    public String saveProvider(@ModelAttribute Provider provider, RedirectAttributes redirectAttributes) {
-        int result = salesDao.addProvider(provider);
-        if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente agregado correctamente.");
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
-        }
-        return "redirect:/sales/suppliers";
     }
 
     @GetMapping("/customers/edit/{id}")
@@ -129,6 +163,28 @@ public class SalesController {
         return "redirect:/sales/customers";
     }
 
+    // PROOVEDORES
+    // ---------------------------------------------------------------------------------
+
+    @GetMapping("/suppliers/new")
+    public String showNewProviderForm(Model model) {
+        model.addAttribute("customer", new Provider());
+        return "sales/new-provider";
+    }
+
+    // Agregar un proovedor
+    @PostMapping("/suppliers/save")
+    public String saveProvider(@ModelAttribute Provider provider, RedirectAttributes redirectAttributes) {
+        int result = salesDao.addProvider(provider);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cliente agregado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
+        }
+        return "redirect:/sales/suppliers";
+    }
+
+    // Editar un proovedor
     @GetMapping("/suppliers/edit/{id}")
     public String showEditProviderForm(@PathVariable int id, Model model) {
         Provider provider = salesDao.getProviderById(id);
@@ -153,11 +209,10 @@ public class SalesController {
         return "redirect:/sales/suppliers";
     }
 
-    // Eliminar un cliente
+    // Eliminar un proovedor
     @PostMapping("/suppliers/delete")
     public String deleteProvider(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
         int result = salesDao.deleteProvider(id);
-        System.out.println("id en controller ------ " + id);
 
         if (result > 0) {
             redirectAttributes.addFlashAttribute("successMessage", "Proovedor eliminado correctamente.");
@@ -166,5 +221,90 @@ public class SalesController {
         }
         return "redirect:/sales/suppliers";
     }
+
+    // ORDENES
+    // ---------------------------------------------------------------------------------
+    // Agregar Orden
+    @GetMapping("/order/new")
+    public String showNewOrderForm(Model model) {
+        model.addAttribute("order", new Order());
+        return "sales";
+    }
+
+    // Agregar una Orden
+    @PostMapping("/order/save")
+    public String saveOrder(@ModelAttribute Order order, RedirectAttributes redirectAttributes) {
+        System.out.println("AMOUNT ORDER " + order.getAmount());
+        System.out.println("STATUS " + order.getStatus());
+        int result = salesDao.addOrder(order);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Orden agregada correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el orden.");
+        }
+        return "redirect:/sales";
+    }
+
+    // Editar una Orden
+    @GetMapping("/order/edit/{id}")
+    public String showEditOrderForm(@PathVariable int id, Model model) {
+        OrderDetail orden = salesDao.getOrderById(id);
+        if (orden == null) {
+            return "redirect:/sales";
+        }
+
+        List<Product> products = salesDao.getAllProducts();
+        List<Customer> customers = salesDao.getAllCustomers();
+        List<OrderDetail> orders = salesDao.getAllOrders();
+
+        model.addAttribute("lista_products", products);
+        model.addAttribute("lista_clientes", customers);
+
+        model.addAttribute("order", orden);
+
+        model.addAttribute("provider", orden);
+        return "sales/edit-order";
+    }
+
+    // Actualizar una orden
+    @PostMapping("/order/edit/{id}")
+    public String updateOrder(@PathVariable int id,
+            @ModelAttribute OrderDetail orderDetail,
+            @RequestParam int customerId,
+            @RequestParam int productId,
+            @RequestParam("orderDate") String orderDateStr,
+            RedirectAttributes redirectAttributes) {
+
+        LocalDate localDate = LocalDate.parse(orderDateStr);
+        LocalDateTime orderDate = localDate.atStartOfDay();
+        orderDetail.setOrderDate(orderDate);
+
+        orderDetail.setCustomerId(customerId);
+        orderDetail.setProductId(productId);
+
+        int result = salesDao.updateOrder(orderDetail);
+
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Orden actualizada correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al actualizar el orden.");
+        }
+        return "redirect:/sales";
+    }
+
+    // Eliminar una orden
+    @PostMapping("/order/delete")
+    public String deleteOrder(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
+        int result = salesDao.deleteOrder(id);
+
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Orden eliminado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el orden.");
+        }
+        return "redirect:/sales";
+    }
+
+    // Productos
 
 }

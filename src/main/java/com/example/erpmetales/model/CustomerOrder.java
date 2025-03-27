@@ -2,23 +2,25 @@ package com.example.erpmetales.model;
 
 import java.util.List;
 
-public class CustomerOrder extends BaseEntity implements Order {
+public class CustomerOrder extends BaseEntity {
     private Customer customer;
     private List<Product> products;
     private double total;
     private String state;
 
-    @Override
-    public void procesarOrden() {
-        this.state = "Pagado";
-        System.out.println("Pedido procesado correctamente.");
-    }
-
-    @Override
-    public void cancelarOrden() {
-        this.state = "Cancelado";
-        System.out.println("Pedido cancelado.");
-    }
+    /*
+     * @Override
+     * public void procesarOrden() {
+     * this.state = "Pagado";
+     * System.out.println("Pedido procesado correctamente.");
+     * }
+     * 
+     * @Override
+     * public void cancelarOrden() {
+     * this.state = "Cancelado";
+     * System.out.println("Pedido cancelado.");
+     * }
+     */
 
     // Getters and setters
 

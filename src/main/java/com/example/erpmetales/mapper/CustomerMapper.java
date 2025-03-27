@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 import com.example.erpmetales.model.Customer;
-import com.example.erpmetales.model.Person;
 
 public class CustomerMapper implements RowMapper<Customer> {
     @Override
