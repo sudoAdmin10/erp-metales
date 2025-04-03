@@ -67,77 +67,62 @@
 
             <!-- Contenido principal -->
             <main class="col-md-9 col-lg-10 p-4">
-                <h2 class="h4 mb-4">Bienvenido al ERP Metales</h2>
                 <header class="header">
-                    <h2>Producción</h2>
-                    <button class=" btn btn-primary">Nuevo Pedido</button>
+                    <h2>Production</h2>
                 </header>
 
                 <!-- Sección para tomar pedidos -->
                 <section class="order-section">
-                    <h3>Tomar Pedido</h3>
-                    <form class="order-form">
+                    <h3>Buscador por Cliente</h3>
+                    <form class="order-form" action="/sales/order/save" method="post">
                         <div class="form-group">
-                            <label for="cliente">Cliente</label>
-                            <input type="text" id="cliente" name="cliente" required>
+                            <label for="customer">Client:</label>
+                            <select id="customer" name="customerId" class="form-select" required>
+                                <option value="">Select a Client...</option>
+                                <option th:each="c : ${lista_clientes}" th:value="${c.id}"
+                                    th:text="${c.first_name + ' ' + c.last_name}"></option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="producto">Producto</label>
-                            <input type="text" id="producto" name="producto" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="number" id="cantidad" name="cantidad" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="fecha-entrega">Fecha de Entrega</label>
-                            <input type="date" id="fecha-entrega" name="fecha-entrega" required>
-                        </div>
-                        <button type="submit" class=" btn btn-primary">Crear Pedido</button>
+                        <button type="submit" class=" btn btn-primary mt-3">Buscar</button>
                     </form>
                 </section>
 
-                <!-- Tabla de órdenes en producción -->
                 <section class="table-section">
-                    <h3>Órdenes en Producción</h3>
+                    <h3>List Order</h3>
                     <table class="production-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Fecha de Entrega</th>
-                                <th>Estado</th>
+                                <th>Client</th>
+                                <th>Product</th>
+                                <th>Order Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Total</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>Cliente A</td>
-                                <td>Lámina de Acero</td>
-                                <td>500</td>
-                                <td>2023-10-10</td>
-                                <td><span class="status in-progress">En Progreso</span></td>
+                            <tr th:each="o : ${lista_ordenes_pendientes}">
+                                <td th:text="${o.customerName}"></td>
+                                <td th:text="${o.productName}"></td>
+                                <td th:text="${o.orderDate}"></td>
+                                <td th:text="${o.amount}"></td>
                                 <td>
-                                    <button class="btn btn-outline-warning">Editar</button>
-                                    <button class="btn btn-outline-danger">Cancelar</button>
+                                    <span th:switch="${o.status}">
+                                        <span th:case="'Acepted'" class="status acepted" th:text="${o.status}"></span>
+                                        <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
+                                        <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
+                                    </span>
+                                </td>
+                                <td th:text="${o.total}"></td>
+                                <td>
+                                    <a class="btn btn-outline-success mx-2"
+                                        th:href="@{/production/order/edit/{id}(id=${o.id})}"><i
+                                            class="fa-solid fa-check"></i></a>
+                                    <a class="btn btn-outline-danger" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Cliente B</td>
-                                <td>Tubos de Aluminio</td>
-                                <td>300</td>
-                                <td>2023-10-15</td>
-                                <td><span class="status pending">Pendiente</span></td>
-                                <td>
-                                    <button class="btn btn-outline-warning">Editar</button>
-                                    <button class="btn btn-outline-danger">Cancelar</button>
-                                </td>
-                            </tr>
-                            <!-- Más filas aquí -->
                         </tbody>
                     </table>
                 </section>

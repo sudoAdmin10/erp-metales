@@ -49,7 +49,7 @@ public class SalesController {
     public String showSalesPage(Model model) {
         List<Product> products = salesDao.getAllProducts();
         List<OrderDetail> orders = salesDao.getAllOrders();
-        List<Customer> customers = salesDao.getAllCustomers(); // Obtener clientes
+        List<Customer> customers = salesDao.getAllCustomers();
 
         model.addAttribute("lista_products", products);
         model.addAttribute("lista_ordenes", orders);
