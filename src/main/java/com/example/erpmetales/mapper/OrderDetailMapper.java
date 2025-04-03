@@ -28,6 +28,7 @@ public class OrderDetailMapper implements RowMapper<OrderDetail> {
             order.setOrderDate(orderDate.toLocalDateTime());
         }
 
+        order.setTotal(rs.getDouble("TOTAL"));
         order.setAmount(rs.getInt("AMOUNT"));
         order.setStatus(rs.getString("STATUS"));
 

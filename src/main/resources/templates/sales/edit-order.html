@@ -102,12 +102,8 @@
                             <input type="text" id="amount" name="amount" th:value="${order.amount}">
                         </div>
                         <div class="form-group">
-                            <label for="status">Status:</label>
-                            <select class="form-select" id="status" name="status" required>
-                                <option value="Pending" th:selected="${order.status == 'PENDING'}">Pending</option>
-                                <option value="Acepted" th:selected="${order.status == 'ACCEPTED'}">Acepted</option>
-                                <option value="Rejected" th:selected="${order.status == 'REJECTED'}">Rejected</option>
-                            </select>
+                            <label for="total">Total:</label>
+                            <input type="number" id="total" name="total" th:value="${order.total}">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary mt-4">

@@ -24,7 +24,6 @@ import com.example.erpmetales.model.Order;
 import com.example.erpmetales.model.OrderDetail;
 import com.example.erpmetales.model.Product;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Repository
@@ -215,7 +214,7 @@ public class SalesDao {
     // ORDENES -----------------------------------------
     // Mostrar Ordenes
     public List<OrderDetail> getAllOrders() {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
                 "p.first_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +
@@ -227,7 +226,7 @@ public class SalesDao {
 
     // Obtener Orden Por ID
     public OrderDetail getOrderById(int id) {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
                 "p.first_name, p.last_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +
@@ -255,12 +254,13 @@ public class SalesDao {
         if (order.getStatus() == null || order.getStatus().trim().isEmpty()) {
             order.setStatus("Pending");
         }
-        String query = "INSERT INTO orders (customer_id, product_id, amount, order_date, status) VALUES (?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO orders (customer_id, product_id, amount, total, order_date, status) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
 
         return PostgresTemplate.queryForObject(query, new Object[] {
                 order.getCustomerId(),
                 order.getProductId(),
                 order.getAmount(),
+                order.getTotal(),
                 order.getOrderDate(),
                 order.getStatus()
         }, Integer.class);
@@ -286,13 +286,13 @@ public class SalesDao {
         }
 
         // Luego realizar la actualización
-        String query = "UPDATE orders SET customer_id = ?, product_id = ?, order_date = ?, amount = ?, status = ? WHERE id = ?";
+        String query = "UPDATE orders SET customer_id = ?, product_id = ?, order_date = ?, amount = ?, total = ? WHERE id = ?";
         return PostgresTemplate.update(query,
                 orderDetail.getCustomerId(),
                 orderDetail.getProductId(),
                 orderDate,
                 orderDetail.getAmount(),
-                orderDetail.getStatus(),
+                orderDetail.getTotal(),
                 orderDetail.getId());
     }
 
@@ -314,4 +314,17 @@ public class SalesDao {
             return product;
         });
     }
+
+    // Buscar Datos Productos
+    public Product getDetallesProductos(int id) {
+        String query = "SELECT id, name, price, stock, description FROM product WHERE id = ?";
+        return PostgresTemplate.queryForObject(query, new Object[] { id }, new ProductMapper());
+    }
+
+    // Actualizar Stock
+    public int updateStock(int productId, int quantity) {
+        String query = "UPDATE product SET stock = stock - ? WHERE id = ?";
+        return PostgresTemplate.update(query, quantity, productId);
+    }
+
 }

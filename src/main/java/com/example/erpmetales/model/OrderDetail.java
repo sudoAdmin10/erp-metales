@@ -10,7 +10,16 @@ public class OrderDetail {
     private int productId; // Para operaciones CRUD
     private LocalDateTime orderDate;
     private int amount;
+    private double total;
     private String status;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public int getId() {
         return id;

@@ -17,15 +17,6 @@ public class ErpmetalesController {
         return modelAndView;
     }
 
-    // ------------------- PRODUCTION ------------------------------------
-    @RequestMapping(value = { "/production" }, method = RequestMethod.GET)
-    public ModelAndView production() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("production/production");
-        return modelAndView;
-    }
-
     // ------------------- QUALITY ------------------------------------
     @RequestMapping(value = { "/quality" }, method = RequestMethod.GET)
     public ModelAndView quality() {

@@ -3,8 +3,8 @@ package com.example.erpmetales.model;
 public class Product {
     private int id;
     private String name;
-    private String descripcion;
-    private double precio;
+    private String description;
+    private double price;
     private int stock;
 
     // Constructors, getters, and setters
@@ -17,8 +17,8 @@ public class Product {
         this.name = name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getdescription() {
+        return description;
     }
 
     public int getId() {
@@ -29,16 +29,16 @@ public class Product {
         this.id = id;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setdescription(String description) {
+        this.description = description;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getStock() {

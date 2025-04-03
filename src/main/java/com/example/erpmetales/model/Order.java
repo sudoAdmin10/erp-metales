@@ -7,6 +7,7 @@ public class Order {
     private int customerId;
     private int productId;
     private int amount;
+    private double total;
     private LocalDateTime orderDate;
     private String status; // "PENDIENTE", "PROCESADA", "CANCELADA"
 
@@ -80,5 +81,13 @@ public class Order {
 
     public void cancelarOrden() {
         this.status = "CANCELADA";
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

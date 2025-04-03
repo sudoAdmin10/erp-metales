@@ -121,28 +121,72 @@
                             <option th:each="c : ${lista_clientes}" th:value="${c.id}"
                                 th:text="${c.first_name + ' ' + c.last_name}"></option>
                         </select>
-
-
                         <label>Product List:</label>
-                        <select class="form-select form-select" name="productId" required>
+                        <select class="form-select form-select" id="productSelect" name="productId" required>
                             <option value="">Select a Product...</option>
                             <option th:each="product : ${lista_products}" th:value="${product.id}"
                                 th:text="${product.name}">
                             </option>
                             </option>
                         </select>
-
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input type="number" id="amount" name="amount" required>
+                            <input type="number" id="amount" name="amount" min="1" value="1" required>
                         </div>
                         <div class="form-group">
                             <label for="order_date">Delivery Date</label>
                             <input type="date" id="order_date" name="order_date" required>
                         </div>
+                        <div class="form-group">
+                            <label for="price">Total Price</label>
+                            <input type="number" id="price" name="price" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock">On Stock</label>
+                            <input type="number" id="stock" name="stock" required readonly>
+                        </div>
                         <button type="submit" class="btn btn-outline-primary">Create Order</button>
                     </form>
                 </section>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const productSelect = document.getElementById("productSelect");
+                        const amountInput = document.getElementById("amount");
+                        const priceInput = document.getElementById("price");
+                        const stockInput = document.getElementById("stock");
+
+                        let unitPrice = 0; // Variable para almacenar el precio unitario
+
+                        productSelect.addEventListener("change", function () {
+                            const productId = this.value;
+
+                            if (productId) {
+                                fetch(`/sales/product/details?id=${productId}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log("Producto seleccionado:", data);
+                                        unitPrice = data.precio; // Guardar precio unitario
+                                        stockInput.value = data.stock;
+                                        updateTotalPrice(); // Calcular el precio total
+                                    })
+                                    .catch(error => console.error("Error obteniendo detalles del producto:", error));
+                            } else {
+                                unitPrice = 0;
+                                stockInput.value = "";
+                                priceInput.value = "";
+                            }
+                        });
+
+                        amountInput.addEventListener("input", function () {
+                            updateTotalPrice();
+                        });
+
+                        function updateTotalPrice() {
+                            const quantity = parseInt(amountInput.value) || 0;
+                            priceInput.value = (quantity * unitPrice).toFixed(2); // Multiplicar cantidad por precio unitario
+                        }
+                    });
+                </script>
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
@@ -192,6 +236,7 @@
                                 <th>Order Date</th>
                                 <th>Amount</th>
                                 <th>Status</th>
+                                <th>Total</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -208,6 +253,7 @@
                                         <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
                                     </span>
                                 </td>
+                                <td th:text="${o.total}"></td>
                                 <td>
                                     <a class="btn btn-outline-primary mx-2"
                                         th:href="@{/sales/order/edit/{id}(id=${o.id})}"><i
