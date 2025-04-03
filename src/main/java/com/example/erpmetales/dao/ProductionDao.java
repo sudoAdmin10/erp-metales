@@ -42,4 +42,10 @@ public class ProductionDao {
         return PostgresTemplate.query(query, new OrderDetailMapper(), customerId);
     }
 
+    // Enviar Orden a Calidad
+    public int updateOrderStatus(int orderId, String status) {
+        String query = "UPDATE orders SET status = ? WHERE id = ?";
+        return PostgresTemplate.update(query, status, orderId);
+    }
+
 }

@@ -226,8 +226,6 @@
                     });
                 </script>
 
-
-
                 <section class="table-section">
                     <h3>List Order</h3>
                     <table class="production-table">
@@ -239,7 +237,7 @@
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Total</th>
-                                <th>Acciones</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -250,7 +248,7 @@
                                 <td th:text="${o.amount}"></td>
                                 <td>
                                     <span th:switch="${o.status}">
-                                        <span th:case="'Acepted'" class="status acepted" th:text="${o.status}"></span>
+                                        <span th:case="'Accepted'" class="status acepted" th:text="${o.status}"></span>
                                         <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
                                         <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
                                     </span>

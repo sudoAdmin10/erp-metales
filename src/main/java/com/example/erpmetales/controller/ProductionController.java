@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -60,6 +61,19 @@ public class ProductionController {
         model.addAttribute("orden_cliente", ordersByCustomer); // Enviar las órdenes filtradas
 
         return "production/production";
+    }
+
+    @PostMapping("/order/send")
+    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes) {
+        int result = productionDao.updateOrderStatus(orderId, "Accepted");
+
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Order sent to Quality successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error sending order.");
+        }
+
+        return "redirect:/production"; // Redirige a la página principal de producción
     }
 
 }

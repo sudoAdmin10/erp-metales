@@ -116,9 +116,9 @@ public class SalesController {
     public String saveCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes) {
         int result = salesDao.addCustomer(customer);
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente agregado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Client added successfully.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding client.");
         }
         return "redirect:/sales/customers";
     }
@@ -140,9 +140,9 @@ public class SalesController {
         customer.setId(id);
         int result = salesDao.updateCustomer(customer);
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente actualizado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Client update successfully.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al actualizar el cliente.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error update client.");
         }
         return "redirect:/sales/customers";
     }
@@ -151,9 +151,9 @@ public class SalesController {
     public String deleteCustomer(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
         int result = salesDao.deleteCustomer(id);
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente eliminado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Client delete successfully.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el cliente.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error delete client.");
         }
         return "redirect:/sales/customers";
     }
@@ -172,9 +172,9 @@ public class SalesController {
     public String saveProvider(@ModelAttribute Provider provider, RedirectAttributes redirectAttributes) {
         int result = salesDao.addProvider(provider);
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente agregado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Provider added successfully..");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el cliente.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding provider.");
         }
         return "redirect:/sales/suppliers";
     }
@@ -197,9 +197,9 @@ public class SalesController {
         provider.setId(id);
         int result = salesDao.updateProvider(provider);
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Proovedor actualizado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Properly updated supplier.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al actualizar el proovedor.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update the provider.");
         }
         return "redirect:/sales/suppliers";
     }
@@ -210,9 +210,9 @@ public class SalesController {
         int result = salesDao.deleteProvider(id);
 
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Proovedor eliminado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Properly delete supplier.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el provedor.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete the provider.");
         }
         return "redirect:/sales/suppliers";
     }
@@ -232,15 +232,15 @@ public class SalesController {
 
         Product product = salesDao.getDetallesProductos(order.getProductId());
         if (product.getStock() < order.getAmount()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Stock insuficiente para la orden.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Insufficient stock for the order.");
             return "redirect:/sales";
         }
 
         int result = salesDao.addOrder(order);
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Orden agregada correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Order added correctly.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al agregar el orden.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding order.");
         }
         return "redirect:/sales";
     }
@@ -285,9 +285,9 @@ public class SalesController {
         int result = salesDao.updateOrder(orderDetail);
 
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Orden actualizada correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Order update successufully.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al actualizar el orden.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error to update the order.");
         }
         return "redirect:/sales";
     }
@@ -298,9 +298,9 @@ public class SalesController {
         int result = salesDao.deleteOrder(id);
 
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("successMessage", "Orden eliminado correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage", "Order delete successufully.");
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al eliminar el orden.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error to delete the order.");
         }
         return "redirect:/sales";
     }

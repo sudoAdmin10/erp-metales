@@ -71,6 +71,17 @@
                     <h2>Production</h2>
                 </header>
 
+                <!-- Mensajes de éxito/error -->
+                <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${errorMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
                 <!-- Sección para tomar pedidos -->
                 <section class="order-section">
                     <div class="d-flex flex-row justify-content-between">
@@ -78,7 +89,6 @@
                         <a class="btn btn-primary" href="/production" th:if="${not #lists.isEmpty(orden_cliente)}"><i
                                 class="fa-solid fa-backward"></i> Return</a>
                     </div>
-
 
                     <form class="order-form" action="/production/search-order/customer" method="post">
                         <div class="form-group">
@@ -106,7 +116,7 @@
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Total</th>
-                                <th>Acciones</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,19 +154,46 @@
                                         <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
                                     </span>
                                 </td>
-                                <td th:text="${o.total}"></td>
+                                <td th:text="'$'+${o.total}"></td>
                                 <td>
-                                    <a class="btn btn-outline-success mx-2"
-                                        th:href="@{/production/order/edit/{id}(id=${o.id})}"><i
-                                            class="fa-solid fa-check"></i></a>
-                                    <a class="btn btn-outline-danger" onclick="openDeleteModal(this)"
-                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-trash"></i></a>
+                                    <a class="btn btn-outline-success" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-check"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Send</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to send this order?
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/production/order/send" method="post">
+                                    <input type="hidden" id="sendOrderId" name="id">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <script>
+                    function openDeleteModal(element) {
+                        let orderId = element.getAttribute("data-id");
+                        document.getElementById("sendOrderId").value = orderId;
+                        var deleteModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+                        deleteModal.show();
+                    }
+                </script>
 
             </main>
         </div>
