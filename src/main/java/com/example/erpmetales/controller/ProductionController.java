@@ -13,7 +13,11 @@ import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.OrderDetail;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/production")
@@ -41,6 +45,19 @@ public class ProductionController {
 
         model.addAttribute("lista_ordenes_pendientes", orders);
         model.addAttribute("lista_clientes", customers);
+        model.addAttribute("orden_cliente", null); // Inicialmente vacío
+
+        return "production/production";
+    }
+
+    @PostMapping("/search-order/customer")
+    public String buscarOrdenPorCliente(@RequestParam int customerId, Model model) {
+        List<OrderDetail> orders = productionDao.getAllOrdersPending(); // Obtener todas por defecto
+        List<OrderDetail> ordersByCustomer = productionDao.getCustomerOrder(customerId); // Obtener solo del cliente
+
+        model.addAttribute("lista_ordenes_pendientes", orders);
+        model.addAttribute("lista_clientes", salesDao.getAllCustomers());
+        model.addAttribute("orden_cliente", ordersByCustomer); // Enviar las órdenes filtradas
 
         return "production/production";
     }

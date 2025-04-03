@@ -73,8 +73,14 @@
 
                 <!-- Sección para tomar pedidos -->
                 <section class="order-section">
-                    <h3>Buscador por Cliente</h3>
-                    <form class="order-form" action="/sales/order/save" method="post">
+                    <div class="d-flex flex-row justify-content-between">
+                        <h3>Search for Customer</h3>
+                        <a class="btn btn-primary" href="/production" th:if="${not #lists.isEmpty(orden_cliente)}"><i
+                                class="fa-solid fa-backward"></i> Return</a>
+                    </div>
+
+
+                    <form class="order-form" action="/production/search-order/customer" method="post">
                         <div class="form-group">
                             <label for="customer">Client:</label>
                             <select id="customer" name="customerId" class="form-select" required>
@@ -83,12 +89,14 @@
                                     th:text="${c.first_name + ' ' + c.last_name}"></option>
                             </select>
                         </div>
-                        <button type="submit" class=" btn btn-primary mt-3">Buscar</button>
+                        <button type="submit" class=" btn btn-outline-primary mt-3"><i
+                                class="fa-solid fa-magnifying-glass"></i>
+                        </button>
                     </form>
                 </section>
 
-                <section class="table-section">
-                    <h3>List Order</h3>
+
+                <section class="table-section mb-4">
                     <table class="production-table">
                         <thead>
                             <tr>
@@ -102,7 +110,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="o : ${lista_ordenes_pendientes}">
+                            <tr th:if="${not #lists.isEmpty(orden_cliente)}" th:each="o : ${orden_cliente}">
+                                <td th:text="${o.customerName}"></td>
+                                <td th:text="${o.productName}"></td>
+                                <td th:text="${o.orderDate}"></td>
+                                <td th:text="${o.amount}"></td>
+                                <td>
+                                    <span th:switch="${o.status}">
+                                        <span th:case="'Acepted'" class="status acepted" th:text="${o.status}"></span>
+                                        <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
+                                        <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
+                                    </span>
+                                </td>
+                                <td th:text="${o.total}"></td>
+                                <td>
+                                    <a class="btn btn-outline-success mx-2"
+                                        th:href="@{/production/order/edit/{id}(id=${o.id})}"><i
+                                            class="fa-solid fa-check"></i></a>
+                                    <a class="btn btn-outline-danger" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr th:if="${#lists.isEmpty(orden_cliente)}" th:each="o : ${lista_ordenes_pendientes}">
                                 <td th:text="${o.customerName}"></td>
                                 <td th:text="${o.productName}"></td>
                                 <td th:text="${o.orderDate}"></td>
@@ -126,6 +156,8 @@
                         </tbody>
                     </table>
                 </section>
+
+
             </main>
         </div>
     </div>
