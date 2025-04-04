@@ -24,7 +24,7 @@ public class ProductionDao {
                 "INNER JOIN customer c ON o.customer_id = c.id " +
                 "INNER JOIN person p ON c.person_id = p.id " +
                 "INNER JOIN product pr ON o.product_id = pr.id " +
-                "WHERE o.status = 'Pending' " +
+                "WHERE o.status = 'Sending' " +
                 "ORDER BY o.order_date DESC";
         return PostgresTemplate.query(query, new OrderDetailMapper());
     }

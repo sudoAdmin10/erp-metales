@@ -164,6 +164,12 @@ body {
     border: 1px solid #721c24;
 }
 
+.status.sending {
+    background-color: #f5f8d7;
+    color: #b5bb09;
+    border: 1px solid #c9d006;
+}
+
 .btn-edit,
 .btn-delete {
     padding: 5px 10px;

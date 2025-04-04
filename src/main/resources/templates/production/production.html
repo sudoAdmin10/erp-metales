@@ -127,18 +127,13 @@
                                 <td th:text="${o.amount}"></td>
                                 <td>
                                     <span th:switch="${o.status}">
-                                        <span th:case="'Acepted'" class="status acepted" th:text="${o.status}"></span>
-                                        <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
-                                        <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
+                                        <span th:case="'Sending'" class="status sending" th:text="${o.status}"></span>
                                     </span>
                                 </td>
                                 <td th:text="${o.total}"></td>
                                 <td>
-                                    <a class="btn btn-outline-success mx-2"
-                                        th:href="@{/production/order/edit/{id}(id=${o.id})}"><i
-                                            class="fa-solid fa-check"></i></a>
-                                    <a class="btn btn-outline-danger" onclick="openDeleteModal(this)"
-                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-trash"></i></a>
+                                    <a class="btn btn-outline-success" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-check"></i></a>
                                 </td>
                             </tr>
 
@@ -149,9 +144,7 @@
                                 <td th:text="${o.amount}"></td>
                                 <td>
                                     <span th:switch="${o.status}">
-                                        <span th:case="'Acepted'" class="status acepted" th:text="${o.status}"></span>
-                                        <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
-                                        <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
+                                        <span th:case="'Sending'" class="status sending" th:text="${o.status}"></span>
                                     </span>
                                 </td>
                                 <td th:text="'$'+${o.total}"></td>
@@ -163,6 +156,8 @@
                         </tbody>
                     </table>
                 </section>
+
+
                 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">

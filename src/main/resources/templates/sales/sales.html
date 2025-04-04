@@ -250,6 +250,7 @@
                                     <span th:switch="${o.status}">
                                         <span th:case="'Accepted'" class="status acepted" th:text="${o.status}"></span>
                                         <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
+                                        <span th:case="Sending" class="status sending" th:text="${o.status}"></span>
                                         <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
                                     </span>
                                 </td>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP Metales - Control de Calidad</title>
-    <link rel="stylesheet" href="styles/quality.css">
+    <link rel="stylesheet" href="styles/production.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -68,73 +68,114 @@
             <!-- Contenido principal -->
             <main class="col-md-9 col-lg-10 p-4">
                 <header class="header">
-                    <h2>Control de Calidad</h2>
+                    <h2>Quality Control</h2>
                 </header>
 
-                <!-- Tabla de lotes en revisión -->
-                <section class="table-section">
-                    <h3>Lotes en Revisión</h3>
-                    <table class="quality-table">
-                        <thead>
-                            <tr>
-                                <th>ID Lote</th>
-                                <th>Orden de Producción</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Estado</th>
-                                <th>Piezas Defectuosas</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>OP-1001</td>
-                                <td>Lámina de Acero</td>
-                                <td>500</td>
-                                <td><span class="status pending">Pendiente</span></td>
-                                <td>0</td>
-                                <td>
-                                    <button class="btn-approve">Aprobar</button>
-                                    <button class="btn-reject">Rechazar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>OP-1002</td>
-                                <td>Tubos de Aluminio</td>
-                                <td>300</td>
-                                <td><span class="status rejected">Rechazado</span></td>
-                                <td>15</td>
-                                <td>
-                                    <button class="btn-approve">Aprobar</button>
-                                    <button class="btn-reject">Rechazar</button>
-                                </td>
-                            </tr>
-                            <!-- Más filas aquí -->
-                        </tbody>
-                    </table>
-                </section>
+                <!-- Mensajes de éxito/error -->
+                <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${errorMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
 
                 <!-- Formulario para rechazar lote -->
                 <section class="reject-section">
-                    <h3>Rechazar Lote</h3>
+                    <h3>Reject Batch</h3>
                     <form class="reject-form">
                         <div class="form-group">
                             <label for="lote-id">ID Lote</label>
                             <input type="text" id="lote-id" name="lote-id" required>
                         </div>
                         <div class="form-group">
-                            <label for="piezas-defectuosas">Piezas Defectuosas</label>
+                            <label for="piezas-defectuosas">Defective Parts</label>
                             <input type="number" id="piezas-defectuosas" name="piezas-defectuosas" required>
                         </div>
                         <div class="form-group">
-                            <label for="notas">Notas</label>
+                            <label for="notas">Notes</label>
                             <textarea id="notas" name="notas" rows="4" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-outline-primary">Rechazar Lote</button>
+                        <button type="submit" class="btn btn-outline-primary mt-3 mb-4">Reject Batch</button>
                     </form>
                 </section>
+
+                <!-- Tabla de lotes en revisión -->
+
+                <section class="table-section mb-4">
+                    <h3>Lots Under Review</h3>
+                    <table class="production-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Product</th>
+                                <th>Order Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="o : ${lista_ordenes_pendientes}">
+                                <td th:text="${o.customerName}"></td>
+                                <td th:text="${o.productName}"></td>
+                                <td th:text="${o.orderDate}"></td>
+                                <td th:text="${o.amount}"></td>
+                                <td>
+                                    <span th:switch="${o.status}">
+                                        <span th:case="*" class="status in-progress" th:text="${o.status}"></span>
+                                    </span>
+                                </td>
+                                <td th:text="${o.total}"></td>
+                                <td>
+                                    <a class="btn btn-outline-success mb-2 me-2" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-check"></i></a>
+                                    <a class="btn btn-outline-danger mb-2" onclick="openDeleteModal(this)"
+                                        th:attr="data-id=${o.id}"><i class="fa-solid fa-x"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Send</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to send this order?
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/production/order/send" method="post">
+                                    <input type="hidden" id="sendOrderId" name="id">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function openDeleteModal(element) {
+                        let orderId = element.getAttribute("data-id");
+                        document.getElementById("sendOrderId").value = orderId;
+                        var deleteModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+                        deleteModal.show();
+                    }
+                </script>
+
+
             </main>
         </div>
     </div>
