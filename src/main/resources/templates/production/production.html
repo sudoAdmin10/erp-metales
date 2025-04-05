@@ -128,12 +128,16 @@
                                 <td>
                                     <span th:switch="${o.status}">
                                         <span th:case="'Sending'" class="status sending" th:text="${o.status}"></span>
+                                        <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
                                     </span>
                                 </td>
                                 <td th:text="${o.total}"></td>
                                 <td>
                                     <a class="btn btn-outline-success" onclick="openDeleteModal(this)"
                                         th:attr="data-id=${o.id}"><i class="fa-solid fa-check"></i></a>
+                                    <a class="btn btn-outline-primary mx-2"
+                                        th:href="@{/production/order/view/{id}(id=${o.id})}"><i
+                                            class="fa-solid fa-eye"></i></a>
                                 </td>
                             </tr>
 
@@ -145,12 +149,16 @@
                                 <td>
                                     <span th:switch="${o.status}">
                                         <span th:case="'Sending'" class="status sending" th:text="${o.status}"></span>
+                                        <span th:case="'Rejected'" class="status rejected" th:text="${o.status}"></span>
                                     </span>
                                 </td>
                                 <td th:text="'$'+${o.total}"></td>
                                 <td>
                                     <a class="btn btn-outline-success" onclick="openDeleteModal(this)"
                                         th:attr="data-id=${o.id}"><i class="fa-solid fa-check"></i></a>
+                                    <a class="btn btn-outline-primary mx-2"
+                                        th:href="@{/production/order/view/{id}(id=${o.id})}"><i
+                                            class="fa-solid fa-eye"></i></a>
                                 </td>
                             </tr>
                         </tbody>

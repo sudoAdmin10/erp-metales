@@ -17,13 +17,4 @@ public class ErpmetalesController {
         return modelAndView;
     }
 
-    // ------------------- PACKAGING ------------------------------------
-    @RequestMapping(value = { "/packaging" }, method = RequestMethod.GET)
-    public ModelAndView packaging() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("package/packaging");
-        return modelAndView;
-    }
-
 }

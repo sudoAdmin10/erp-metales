@@ -12,6 +12,8 @@ import com.example.erpmetales.dao.ProductionDao;
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.OrderDetail;
+import com.example.erpmetales.model.Product;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +76,26 @@ public class ProductionController {
         }
 
         return "redirect:/production"; // Redirige a la página principal de producción
+    }
+
+    @GetMapping("/order/view/{id}")
+    public String showEditOrderForm(@PathVariable int id, Model model) {
+        OrderDetail orden = salesDao.getOrderById(id);
+        if (orden == null) {
+            return "redirect:/production";
+        }
+
+        List<Product> products = salesDao.getAllProducts();
+        List<Customer> customers = salesDao.getAllCustomers();
+        List<OrderDetail> orders = salesDao.getAllOrders();
+
+        model.addAttribute("lista_products", products);
+        model.addAttribute("lista_clientes", customers);
+
+        model.addAttribute("order", orden);
+
+        model.addAttribute("provider", orden);
+        return "production/view-order";
     }
 
 }

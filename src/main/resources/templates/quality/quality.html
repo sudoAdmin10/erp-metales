@@ -110,6 +110,7 @@
                     <table class="production-table">
                         <thead>
                             <tr>
+                                <th>Lot</th>
                                 <th>Client</th>
                                 <th>Product</th>
                                 <th>Order Date</th>
@@ -121,6 +122,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="o : ${lista_ordenes_pendientes}">
+                                <td th:text="${o.id}"></td>
                                 <td th:text="${o.customerName}"></td>
                                 <td th:text="${o.productName}"></td>
                                 <td th:text="${o.orderDate}"></td>

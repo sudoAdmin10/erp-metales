@@ -16,7 +16,7 @@ public class ProductionDao {
     private JdbcTemplate PostgresTemplate;
 
     // ORDENES
-    // Mostrar Ordenes Pendientes
+    // Mostrar Ordenes Pendientes y Rechazadas
     public List<OrderDetail> getAllOrdersPending() {
         String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
                 "p.first_name, pr.name " +
@@ -24,7 +24,7 @@ public class ProductionDao {
                 "INNER JOIN customer c ON o.customer_id = c.id " +
                 "INNER JOIN person p ON c.person_id = p.id " +
                 "INNER JOIN product pr ON o.product_id = pr.id " +
-                "WHERE o.status = 'Sending' " +
+                "WHERE o.status IN ('Sending', 'Rejected') " +
                 "ORDER BY o.order_date DESC";
         return PostgresTemplate.query(query, new OrderDetailMapper());
     }
