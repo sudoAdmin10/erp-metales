@@ -17,7 +17,8 @@ public class PackagingDao {
 
     // Mostrar Ordenes Aceptadas
     public List<OrderDetail> getAllOrdersAcepted() {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, o.defective_parts, o.description, "
+                +
                 "p.first_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +

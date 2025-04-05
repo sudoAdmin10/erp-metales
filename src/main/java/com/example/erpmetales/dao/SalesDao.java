@@ -214,7 +214,8 @@ public class SalesDao {
     // ORDENES -----------------------------------------
     // Mostrar Ordenes
     public List<OrderDetail> getAllOrders() {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, o.defective_parts, o.description, "
+                +
                 "p.first_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +
@@ -226,7 +227,8 @@ public class SalesDao {
 
     // Obtener Orden Por ID
     public OrderDetail getOrderById(int id) {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, o.defective_parts, o.description, "
+                +
                 "p.first_name, p.last_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +

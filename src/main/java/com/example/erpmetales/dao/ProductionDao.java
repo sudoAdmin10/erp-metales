@@ -18,7 +18,8 @@ public class ProductionDao {
     // ORDENES
     // Mostrar Ordenes Pendientes y Rechazadas
     public List<OrderDetail> getAllOrdersPending() {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, o.defective_parts, o.description, "
+                +
                 "p.first_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +
@@ -30,13 +31,14 @@ public class ProductionDao {
     }
 
     public List<OrderDetail> getCustomerOrder(int customerId) {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, o.defective_parts, o.description, "
+                +
                 "p.first_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +
                 "INNER JOIN person p ON c.person_id = p.id " +
                 "INNER JOIN product pr ON o.product_id = pr.id " +
-                "WHERE o.customer_id = ? " +
+                "WHERE o.customer_id = ? AND o.status IN ('Rejected', 'Sending') " +
                 "ORDER BY o.order_date DESC";
 
         return PostgresTemplate.query(query, new OrderDetailMapper(), customerId);

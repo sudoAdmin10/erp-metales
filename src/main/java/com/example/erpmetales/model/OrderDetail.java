@@ -12,9 +12,27 @@ public class OrderDetail {
     private int amount;
     private double total;
     private String status;
+    private String description; // Para ordenes rechazadas
+    private String defective_parts; // Para ordenes rechazadas
 
     public double getTotal() {
         return total;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDefective_parts() {
+        return defective_parts;
+    }
+
+    public void setDefective_parts(String defective_parts) {
+        this.defective_parts = defective_parts;
     }
 
     public void setTotal(double total) {

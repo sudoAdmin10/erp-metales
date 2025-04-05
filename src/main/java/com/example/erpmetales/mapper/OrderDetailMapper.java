@@ -32,7 +32,9 @@ public class OrderDetailMapper implements RowMapper<OrderDetail> {
         order.setAmount(rs.getInt("AMOUNT"));
         order.setStatus(rs.getString("STATUS"));
 
-        // Note: This won't set id, customerId, productId since they're not in the query
+        order.setDefective_parts(rs.getString("DEFECTIVE_PARTS"));
+        order.setDescription(rs.getString("DESCRIPTION"));
+
         return order;
     }
 }

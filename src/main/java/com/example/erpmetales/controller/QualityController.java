@@ -13,9 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.erpmetales.ErpmetalesApplication;
 import com.example.erpmetales.dao.QualityDao;
-import com.example.erpmetales.dao.SalesDao;
+import com.example.erpmetales.dao.ProductionDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.OrderDetail;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/quality")
@@ -23,13 +24,13 @@ public class QualityController {
     private final ErpmetalesApplication erpmetalesApplication;
 
     private QualityDao qualityDao;
-    private SalesDao salesDao;
+    private ProductionDao productionDao;
 
     @Autowired
-    QualityController(ErpmetalesApplication erpmetalesApplication, QualityDao qualityDao, SalesDao salesDao) {
+    QualityController(ErpmetalesApplication erpmetalesApplication, QualityDao qualityDao, ProductionDao productionDao) {
         this.erpmetalesApplication = erpmetalesApplication;
         this.qualityDao = qualityDao;
-        this.salesDao = salesDao;
+        this.productionDao = productionDao;
     }
 
     // VISTAS
@@ -37,12 +38,31 @@ public class QualityController {
     @GetMapping("")
     public String showqualityPage(Model model) {
         List<OrderDetail> orders = qualityDao.getAllOrdersPending();
-        List<Customer> customers = salesDao.getAllCustomers();
 
         model.addAttribute("lista_ordenes_pendientes", orders);
-        model.addAttribute("lista_clientes", customers);
 
         return "quality/quality";
+    }
+
+    @PostMapping("/order/reject")
+    public String rechazarLote(@RequestParam("id") int id,
+            @RequestParam("description") String description,
+            @RequestParam("defective_parts") String defectiveParts,
+            RedirectAttributes redirectAttributes) {
+
+        // Actualizar la orden con la descripción y piezas defectuosas
+        int result = qualityDao.rechazarLote(id, description, defectiveParts);
+
+        // Cambiar el estado a "Rejected"
+        int result2 = productionDao.updateOrderStatus(id, "Rejected");
+
+        if (result > 0 && result2 > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Order rejected successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error rejecting order.");
+        }
+
+        return "redirect:/quality";
     }
 
 }

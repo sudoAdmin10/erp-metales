@@ -17,7 +17,8 @@ public class QualityDao {
     // ORDENES
     // Mostrar Ordenes Pendientes
     public List<OrderDetail> getAllOrdersPending() {
-        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, " +
+        String query = "SELECT o.id, o.customer_id, o.product_id, o.order_date, o.amount, o.total, o.status, o.defective_parts, o.description, "
+                +
                 "p.first_name, pr.name " +
                 "FROM orders o " +
                 "INNER JOIN customer c ON o.customer_id = c.id " +
@@ -26,6 +27,11 @@ public class QualityDao {
                 "WHERE o.status = 'Pending' " +
                 "ORDER BY o.order_date DESC";
         return PostgresTemplate.query(query, new OrderDetailMapper());
+    }
+
+    public int rechazarLote(int id, String description, String defective_parts) {
+        String query = "UPDATE orders SET description = ?, defective_parts = ? WHERE id = ?";
+        return PostgresTemplate.update(query, description, defective_parts, id);
     }
 
 }
