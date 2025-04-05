@@ -15,54 +15,8 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Barra lateral -->
-            <aside class="col-md-3 col-lg-2 bg-light p-3">
-                <!-- Logo -->
-                <div class="text-center mb-4">
-                    <h1 class="h4 fw-bold text-primary">ERP Metales</h1>
-                </div>
-
-                <!-- Menú de navegación -->
-                <nav class="nav flex-column">
-                    <!-- Dashboard -->
-                    <a href="#" class="nav-link active bg-primary text-white rounded mb-2">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                    </a>
-
-                    <!-- Ventas -->
-                    <a href="/sales" class="nav-link text-dark rounded mb-2">
-                        <i class="fas fa-shopping-cart me-2"></i>Ventas
-                    </a>
-
-                    <!-- Dropdown de Ventas -->
-                    <div class="dropdown mb-2">
-                        <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-cogs me-2"></i>Opciones de Ventas
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/sales/suppliers">Suppliers</a></li>
-                            <li><a class="dropdown-item" href="/sales/customers">Clients</a></li>
-                            <li><a class="dropdown-item" href="/sales/reports">Reports</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Producción -->
-                    <a href="/production" class="nav-link text-dark rounded mb-2">
-                        <i class="fas fa-industry me-2"></i>Producción
-                    </a>
-
-                    <!-- Control de Calidad -->
-                    <a href="/quality" class="nav-link text-dark rounded mb-2">
-                        <i class="fas fa-check-circle me-2"></i>Control de Calidad
-                    </a>
-
-                    <!-- Empaque -->
-                    <a href="/packaging" class="nav-link text-dark rounded mb-2">
-                        <i class="fas fa-box me-2"></i>Empaque
-                    </a>
-                </nav>
-            </aside>
+            <!-- Menu Principal-->
+            <div th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></div>
 
             <!-- Contenido principal -->
             <main class="col-md-9 col-lg-10 p-4">

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- Define el fragmento -->
+    <div th:fragment="sidebar(activeSection)" class="col-md-3 col-lg-2 bg-light p-3">
+        <div class="text-center mb-4">
+            <h1 class="h4 fw-bold text-primary">ERP Metales</h1>
+        </div>
+
+        <nav class="nav flex-column">
+            <!-- Dashboard -->
+            <a href="/"
+                th:class="${activeSection == 'dashboard'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+
+            <!-- Ventas -->
+            <a href="/sales"
+                th:class="${activeSection == 'sales'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                <i class="fas fa-shopping-cart me-2"></i>Sales
+            </a>
+
+            <div class="dropdown mb-2">
+                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fas fa-cogs me-2"></i>Sales Options
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/sales/suppliers">Suppliers</a></li>
+                    <li><a class="dropdown-item" href="/sales/customers">Clients</a></li>
+                    <li><a class="dropdown-item" href="/sales/reports">Reports</a></li>
+                </ul>
+            </div>
+
+            <!-- Producción -->
+            <a href="/production"
+                th:class="${activeSection == 'production'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                <i class="fas fa-industry me-2"></i>Production
+            </a>
+
+            <!-- Control de Calidad -->
+            <a href="/quality"
+                th:class="${activeSection == 'quality'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                <i class="fas fa-check-circle me-2"></i>Quality Control
+            </a>
+
+            <!-- Empaque -->
+            <a href="/packaging"
+                th:class="${activeSection == 'packaging'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                <i class="fas fa-box me-2"></i>Packaging
+            </a>
+        </nav>
+    </div>
+</body>
+
+</html>
