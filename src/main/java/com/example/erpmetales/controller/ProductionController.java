@@ -79,22 +79,26 @@ public class ProductionController {
     }
 
     @GetMapping("/order/view/{id}")
-    public String showEditOrderForm(@PathVariable int id, Model model) {
-        OrderDetail orden = salesDao.getOrderById(id);
-        if (orden == null) {
+    public String showViewOrderForm(@PathVariable int id, Model model) {
+        OrderDetail order = salesDao.getOrderById(id);
+        if (order == null) {
             return "redirect:/production";
+        }
+
+        // Obtener datos adicionales si la orden está rechazada
+        if ("Rejected".equals(order.getStatus())) {
+            OrderDetail rejectedDetails = productionDao.getOrderRejected(id);
+            order.setDescription(rejectedDetails.getDescription());
+            order.setDefective_parts(rejectedDetails.getDefective_parts());
         }
 
         List<Product> products = salesDao.getAllProducts();
         List<Customer> customers = salesDao.getAllCustomers();
-        List<OrderDetail> orders = salesDao.getAllOrders();
 
         model.addAttribute("lista_products", products);
         model.addAttribute("lista_clientes", customers);
+        model.addAttribute("order", order);
 
-        model.addAttribute("order", orden);
-
-        model.addAttribute("provider", orden);
         return "production/view-order";
     }
 

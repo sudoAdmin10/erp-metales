@@ -68,7 +68,8 @@
             <main class="col-md-9 col-lg-10 p-4">
                 <header class="header">
                     <h2>View Order</h2>
-                    <a href="/sales" class="btn btn-primary"><i class="fa-solid fa-backward"></i> Return to Sales</a>
+                    <a href="/production" class="btn btn-primary"><i class="fa-solid fa-backward"></i> Return to
+                        Production</a>
                 </header>
 
                 <section>
@@ -112,6 +113,26 @@
                         </div>
                     </form>
                 </section>
+
+                <!-- Sección de datos de rechazo -->
+                <section th:if="${order.status == 'Rejected'}" class="mt-4">
+                    <div>
+                        <div>
+                            <h3>Rejection Details</h3>
+                        </div>
+                        <div>
+                            <div class="mb-3">
+                                <label class="form-label ">Defective Parts:</label>
+                                <p class="form-control-plaintext" th:text="${order.defective_parts}"></p>
+                            </div>
+                            <div>
+                                <label class="form-label">Rejection Reason:</label>
+                                <p class="form-control-plaintext" th:text="${order.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </main>
         </div>
     </div>
