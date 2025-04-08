@@ -100,8 +100,8 @@
                             <input type="date" id="order_date" name="order_date" required>
                         </div>
                         <div class="form-group">
-                            <label for="price">Total Price</label>
-                            <input type="number" id="price" name="price" required readonly>
+                            <label for="total">Total Price</label>
+                            <input type="number" id="total" name="total" required readonly>
                         </div>
                         <div class="form-group">
                             <label for="stock">On Stock</label>
@@ -116,7 +116,7 @@
                     document.addEventListener("DOMContentLoaded", function () {
                         const productSelect = document.getElementById("productSelect");
                         const amountInput = document.getElementById("amount");
-                        const priceInput = document.getElementById("price");
+                        const priceInput = document.getElementById("total");
                         const stockInput = document.getElementById("stock");
 
                         let unitPrice = 0; // Variable para almacenar el precio unitario

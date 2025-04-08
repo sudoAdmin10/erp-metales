@@ -254,7 +254,7 @@ public class SalesDao {
         }
 
         if (order.getStatus() == null || order.getStatus().trim().isEmpty()) {
-            order.setStatus("Pending");
+            order.setStatus("Sending");
         }
         String query = "INSERT INTO orders (customer_id, product_id, amount, total, order_date, status) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
 

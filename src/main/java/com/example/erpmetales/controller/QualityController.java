@@ -65,4 +65,17 @@ public class QualityController {
         return "redirect:/quality";
     }
 
+    @PostMapping("/order/send")
+    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes) {
+        int result = productionDao.updateOrderStatus(orderId, "Accepted");
+
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "Order sent to Quality successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error sending order.");
+        }
+
+        return "redirect:/production"; // Redirige a la página principal de producción
+    }
+
 }

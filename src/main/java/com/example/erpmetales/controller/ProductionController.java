@@ -67,7 +67,7 @@ public class ProductionController {
 
     @PostMapping("/order/send")
     public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes) {
-        int result = productionDao.updateOrderStatus(orderId, "Accepted");
+        int result = productionDao.updateOrderStatus(orderId, "Pending");
 
         if (result > 0) {
             redirectAttributes.addFlashAttribute("successMessage", "Order sent to Quality successfully!");
