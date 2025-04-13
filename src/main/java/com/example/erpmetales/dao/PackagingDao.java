@@ -28,4 +28,10 @@ public class PackagingDao {
                 "ORDER BY o.order_date DESC";
         return PostgresTemplate.query(query, new OrderDetailMapper());
     }
+
+    // Enviar Orden como envio
+    public int updateOrderStatus(int orderId, String status) {
+        String query = "UPDATE orders SET status = ? WHERE id = ?";
+        return PostgresTemplate.update(query, status, orderId);
+    }
 }

@@ -144,6 +144,12 @@ body {
     color: #856404;
 }
 
+.status.delivery {
+    background-color: #d69bf1;
+    color: #7706ac;
+    border: 1px solid #7706ac;
+}
+
 /* Botones de acción */
 .btn-edit,
 .btn-delete {
