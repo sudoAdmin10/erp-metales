@@ -1,5 +1,6 @@
 package com.example.erpmetales.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.OrderDetail;
 import com.example.erpmetales.model.Product;
+import com.example.erpmetales.service.UserRoleService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +34,9 @@ public class ProductionController {
     private SalesDao salesDao;
 
     @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
     ProductionController(ErpmetalesApplication erpmetalesApplication, ProductionDao productionDao, SalesDao salesDao) {
         this.erpmetalesApplication = erpmetalesApplication;
         this.productionDao = productionDao;
@@ -42,9 +47,14 @@ public class ProductionController {
     // ------------------------------------------------------------------------
 
     @GetMapping("")
-    public String showProductionPage(Model model) {
+    public String showProductionPage(Model model, Principal principal) {
         List<OrderDetail> orders = productionDao.getAllOrdersPending();
         List<Customer> customers = salesDao.getAllCustomers();
+
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
 
         model.addAttribute("lista_ordenes_pendientes", orders);
         model.addAttribute("lista_clientes", customers);
@@ -54,9 +64,14 @@ public class ProductionController {
     }
 
     @PostMapping("/search-order/customer")
-    public String buscarOrdenPorCliente(@RequestParam int customerId, Model model) {
+    public String buscarOrdenPorCliente(@RequestParam int customerId, Model model, Principal principal) {
         List<OrderDetail> orders = productionDao.getAllOrdersPending(); // Obtener todas por defecto
         List<OrderDetail> ordersByCustomer = productionDao.getCustomerOrder(customerId); // Obtener solo del cliente
+
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
 
         model.addAttribute("lista_ordenes_pendientes", orders);
         model.addAttribute("lista_clientes", salesDao.getAllCustomers());
@@ -66,7 +81,8 @@ public class ProductionController {
     }
 
     @PostMapping("/order/send")
-    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes) {
+    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes, Model model,
+            Principal principal) {
         int result = productionDao.updateOrderStatus(orderId, "Pending");
 
         if (result > 0) {
@@ -75,11 +91,22 @@ public class ProductionController {
             redirectAttributes.addFlashAttribute("errorMessage", "Error sending order.");
         }
 
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
+
         return "redirect:/production"; // Redirige a la página principal de producción
     }
 
     @GetMapping("/order/view/{id}")
-    public String showViewOrderForm(@PathVariable int id, Model model) {
+    public String showViewOrderForm(@PathVariable int id, Model model, Principal principal) {
+
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
+
         OrderDetail order = salesDao.getOrderById(id);
         if (order == null) {
             return "redirect:/production";

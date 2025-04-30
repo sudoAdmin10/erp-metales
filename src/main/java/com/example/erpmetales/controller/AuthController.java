@@ -13,6 +13,8 @@ public class AuthController {
     private final UserService userService;
 
     public AuthController(UserService userService) {
+        System.out.println("-------0--------");
+
         this.userService = userService;
     }
 
@@ -24,12 +26,17 @@ public class AuthController {
             Model model) {
 
         if (error != null) {
+            System.out.println("---------------------------1----------------------------");
             model.addAttribute("error", "Email o contraseña incorrectos");
         }
         if (logout != null) {
+            System.out.println("-----------------------------2--------------------------");
+
             model.addAttribute("message", "Sesión cerrada correctamente");
         }
         if (registered != null) {
+            System.out.println("--------------------------------3-----------------------");
+
             model.addAttribute("message", "Registro exitoso. Por favor inicie sesión");
         }
 

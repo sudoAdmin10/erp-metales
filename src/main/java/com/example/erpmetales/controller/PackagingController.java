@@ -1,5 +1,6 @@
 package com.example.erpmetales.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.example.erpmetales.dao.PackagingDao;
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.OrderDetail;
+import com.example.erpmetales.service.UserRoleService;
 
 @Controller
 @RequestMapping("/packaging")
@@ -26,6 +28,9 @@ public class PackagingController {
     private SalesDao salesDao;
 
     @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
     PackagingController(ErpmetalesApplication erpmetalesApplication, PackagingDao packagingDao, SalesDao salesDao) {
         this.erpmetalesApplication = erpmetalesApplication;
         this.packagingDao = packagingDao;
@@ -33,10 +38,14 @@ public class PackagingController {
     }
 
     @GetMapping("")
-    public String showPackagingPage(Model model) {
+    public String showPackagingPage(Model model, Principal principal) {
         List<OrderDetail> orders = packagingDao.getAllOrdersAcepted();
         List<Customer> customers = salesDao.getAllCustomers();
 
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         model.addAttribute("lista_ordenes_pendientes", orders);
         model.addAttribute("lista_clientes", customers);
         model.addAttribute("orden_cliente", null);
@@ -45,7 +54,13 @@ public class PackagingController {
     }
 
     @PostMapping("/order/deliver")
-    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes) {
+    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes, Model model,
+            Principal principal) {
+
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         int result = packagingDao.updateOrderStatus(orderId, "Delivered");
 
         if (result > 0) {

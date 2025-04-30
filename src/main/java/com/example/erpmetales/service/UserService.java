@@ -18,12 +18,15 @@ public class UserService {
 
     public Users registerUser(Users user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            System.out.println("---------------");
             throw new RuntimeException("Email already in use");
+
         }
 
         // Asegúrate que el rol tenga el prefijo ROLE_
         if (!user.getRole().startsWith("ROLE_")) {
             user.setRole("ROLE_" + user.getRole());
+            System.out.println("ROLE SIN PREFIJO");
         }
 
         System.out.print("PASSWORD: " + user.getPassword());

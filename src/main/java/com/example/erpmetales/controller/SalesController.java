@@ -1,5 +1,6 @@
 package com.example.erpmetales.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import com.example.erpmetales.ErpmetalesApplication;
 import com.example.erpmetales.dao.SalesDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.Provider;
+import com.example.erpmetales.service.UserRoleService;
 import com.example.erpmetales.model.Order;
 import com.example.erpmetales.model.OrderDetail;
 import com.example.erpmetales.model.Product;
@@ -38,6 +40,9 @@ public class SalesController {
     @Autowired
     private SalesDao salesDao;
 
+    @Autowired
+    private UserRoleService userRoleService;
+
     SalesController(ErpmetalesApplication erpmetalesApplication) {
         this.erpmetalesApplication = erpmetalesApplication;
     }
@@ -46,10 +51,15 @@ public class SalesController {
     // ---------------------------------------------------------------------------------
 
     @GetMapping("")
-    public String showSalesPage(Model model) {
+    public String showSalesPage(Model model, Principal principal) {
         List<Product> products = salesDao.getAllProducts();
         List<OrderDetail> orders = salesDao.getAllOrders();
         List<Customer> customers = salesDao.getAllCustomers();
+
+        String userRole = userRoleService.getUserRole(principal);
+
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
 
         model.addAttribute("lista_products", products);
         model.addAttribute("lista_ordenes", orders);
@@ -58,28 +68,42 @@ public class SalesController {
     }
 
     @GetMapping("/customers")
-    public String getCustomers(Model model) {
+    public String getCustomers(Model model, Principal principal) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
+
         List<Customer> customers = salesDao.getAllCustomers();
         model.addAttribute("lista_clientes", customers);
         return "sales/customers";
     }
 
     @GetMapping("/suppliers")
-    public String getSuppliers(Model model) {
+    public String getSuppliers(Model model, Principal principal) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
+
         List<Provider> providers = salesDao.getAllSuppliers();
         model.addAttribute("lista_proovedores", providers);
         return "sales/suppliers";
     }
 
     @GetMapping("/reports")
-    public String getReports(Model model) {
+    public String getReports(Model model, Principal principal) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         List<Customer> customers = salesDao.getAllCustomers();
         model.addAttribute("lista_clientes", customers);
         return "sales/reports";
     }
 
     @GetMapping("orders")
-    public String listOrders(Model model) {
+    public String listOrders(Model model, Principal principal) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         List<OrderDetail> orders = salesDao.getAllOrders();
         model.addAttribute("orders", orders);
         return "sales/orders";
@@ -87,7 +111,10 @@ public class SalesController {
 
     @GetMapping("/customers/search")
     @ResponseBody
-    public List<Map<String, String>> searchCustomers(@RequestParam String query) {
+    public List<Map<String, String>> searchCustomers(@RequestParam String query, Model model, Principal principal) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         List<Customer> customers = salesDao.searchCustomers(query);
         return customers.stream().map(c -> Map.of("name", c.getFirst_name() + " " + c.getLast_name())).toList();
     }

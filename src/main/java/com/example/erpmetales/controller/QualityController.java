@@ -1,5 +1,6 @@
 package com.example.erpmetales.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import com.example.erpmetales.dao.QualityDao;
 import com.example.erpmetales.dao.ProductionDao;
 import com.example.erpmetales.model.Customer;
 import com.example.erpmetales.model.OrderDetail;
+import com.example.erpmetales.service.UserRoleService;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -27,6 +30,9 @@ public class QualityController {
     private ProductionDao productionDao;
 
     @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
     QualityController(ErpmetalesApplication erpmetalesApplication, QualityDao qualityDao, ProductionDao productionDao) {
         this.erpmetalesApplication = erpmetalesApplication;
         this.qualityDao = qualityDao;
@@ -36,7 +42,10 @@ public class QualityController {
     // VISTAS
     // ------------------------------------------------------------------------
     @GetMapping("")
-    public String showqualityPage(Model model) {
+    public String showqualityPage(Model model, Principal principal) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         List<OrderDetail> orders = qualityDao.getAllOrdersPending();
 
         model.addAttribute("lista_ordenes_pendientes", orders);
@@ -48,7 +57,12 @@ public class QualityController {
     public String rechazarLote(@RequestParam("id") int id,
             @RequestParam("description") String description,
             @RequestParam("defective_parts") String defectiveParts,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Principal principal,
+            Model model) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
 
         // Actualizar la orden con la descripción y piezas defectuosas
         int result = qualityDao.rechazarLote(id, description, defectiveParts);
@@ -66,7 +80,11 @@ public class QualityController {
     }
 
     @PostMapping("/order/send")
-    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes) {
+    public String sendOrder(@RequestParam("id") int orderId, RedirectAttributes redirectAttributes, Principal principal,
+            Model model) {
+        String userRole = userRoleService.getUserRole(principal);
+        // Agregar el rol al modelo
+        model.addAttribute("userRole", userRole);
         int result = productionDao.updateOrderStatus(orderId, "Accepted");
 
         if (result > 0) {

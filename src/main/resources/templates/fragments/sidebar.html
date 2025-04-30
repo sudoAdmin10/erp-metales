@@ -13,47 +13,63 @@
         </div>
 
         <nav class="nav flex-column">
+
+
             <!-- Dashboard -->
-            <a href="/"
-                th:class="${activeSection == 'dashboard'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
-                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-            </a>
+            <div th:if="${userRole == 'ROLE_ADMIN'}">
+                <a href="/"
+                    th:class="${activeSection == 'dashboard'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+            </div>
+
 
             <!-- Ventas -->
-            <a href="/sales"
-                th:class="${activeSection == 'sales'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
-                <i class="fas fa-shopping-cart me-2"></i>Sales
-            </a>
 
-            <div class="dropdown mb-2">
-                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="fas fa-cogs me-2"></i>Sales Options
+            <div th:if="${userRole == 'ROLE_SALES' || userRole == 'ROLE_ADMIN'}">
+                <a href="/sales"
+                    th:class="${activeSection == 'sales'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                    <i class="fas fa-shopping-cart me-2"></i>Sales
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/sales/suppliers">Suppliers</a></li>
-                    <li><a class="dropdown-item" href="/sales/customers">Clients</a></li>
-                    <li><a class="dropdown-item" href="/sales/reports">Reports</a></li>
-                </ul>
+
+                <div class="dropdown mb-2">
+                    <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fas fa-cogs me-2"></i>Sales Options
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/sales/suppliers">Suppliers</a></li>
+                        <li><a class="dropdown-item" href="/sales/customers">Clients</a></li>
+                        <li><a class="dropdown-item" href="/sales/reports">Reports</a></li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Producción -->
-            <a href="/production"
-                th:class="${activeSection == 'production'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
-                <i class="fas fa-industry me-2"></i>Production
-            </a>
+            <div th:if="${userRole == 'ROLE_PRODUCTION' || userRole == 'ROLE_ADMIN'}">
+                <a href="/production"
+                    th:class="${activeSection == 'production'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                    <i class="fas fa-industry me-2"></i>Production
+                </a>
+            </div>
 
             <!-- Control de Calidad -->
-            <a href="/quality"
-                th:class="${activeSection == 'quality'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
-                <i class="fas fa-check-circle me-2"></i>Quality Control
-            </a>
+            <div th:if="${userRole == 'ROLE_QUALITY' || userRole == 'ROLE_ADMIN'}">
+                <a href="/quality"
+                    th:class="${activeSection == 'quality'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                    <i class="fas fa-check-circle me-2"></i>Quality Control
+                </a>
+
+            </div>
 
             <!-- Empaque -->
-            <a href="/packaging"
-                th:class="${activeSection == 'packaging'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
-                <i class="fas fa-box me-2"></i>Packaging
-            </a>
+            <div th:if="${userRole == 'ROLE_PACKAGING' || userRole == 'ROLE_ADMIN'}">
+                <a href="/packaging"
+                    th:class="${activeSection == 'packaging'} ? 'nav-link active bg-primary text-white rounded mb-2' : 'nav-link text-dark rounded mb-2'">
+                    <i class="fas fa-box me-2"></i>Packaging
+                </a>
+            </div>
+
         </nav>
     </div>
 </body>
